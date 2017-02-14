@@ -13,5 +13,4 @@ Progress Tracker:
   - Start containers <======> Need to start
   - Stop containers <=======> Need to start
   - Remove containers <=====> Need to start
-  - List container infor <==> Need to start
-
+  - List container info <==> Need to start

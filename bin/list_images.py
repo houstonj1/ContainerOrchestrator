@@ -17,9 +17,10 @@ except ConnectionError:
     print "Connection error exception thrown"
 except ConnectTimeout:
     print "Connect timeout exception thrown"
-else:
-    print imageList
-    print "Names:"
-    for image in imageList:
-        nameStr = image.tags[0]
-        print nameStr
+else: # This means we passed with no exceptions
+    print "Image List: ", imageList
+    if not imageList:
+        print "Image Names:"
+        for image in imageList:
+            nameStr = image.tags[0]
+            print nameStr
