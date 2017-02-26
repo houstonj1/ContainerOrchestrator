@@ -23,12 +23,19 @@ if argLen > 2:
 if argLen == 2:
     # List all
     allBool = sys.argv[1]
-    if allBool == "True" || allBool == "true" || allBool != "False" || allBool != "false":
-    print "Error: Invalid argument passed. Second argument is of type \'bool\'"
+    if allBool not in ['true','True','false','False']:
+        print "Error: Invalid argument passed. Second argument is of type \'bool\'"
     try:
         containerList = client.containers.list(bool(allBool))
-    except:
+    except APIError as e:
+        print "APIError exception thrown! Exception details:"
+        print '\t', e
+    except ConnectTimeout as e:
+        print "ConnectTimeout exception thrown! Exception details:"
+        print '\t', e
+    except ConnectionError as e:
+        print "ConnectionError exception thrown! Exception details:"
+        print '\t', e
 else:
     # List running
     containerList = client.containers.list()
-
