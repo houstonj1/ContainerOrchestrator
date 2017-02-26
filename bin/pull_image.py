@@ -6,6 +6,7 @@
 import docker
 import requests
 import sys
+import timeit
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
@@ -17,7 +18,6 @@ def main():
     # Get input information -- using CLI arguments for now assuming all args are strings
     # Image name
     # Image tag (if applicable)
-
     # Check that minimum arguments are passed
     print sys.argv
     argLen = len(sys.argv)
