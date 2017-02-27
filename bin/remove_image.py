@@ -1,12 +1,11 @@
 #!/usr/bin/python
 # James Houston
 # Container Orchestrator
-# pull_image.py
+# remove_image.py
 
 import docker
 import requests
 import sys
-import timeit
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
@@ -25,13 +24,14 @@ def env_check():
         print '\t', e
         return client,False
 
-def pull_image(client,name,tag = "latest"):
-    # Pull an image
+def remove_image(client,image):
+    # Remove an image
     # Throws docker.errors.APIError if server returns an error
     # Throws requests.ConnectTimeout if the http request to docker times out
     # Throws requests.ConnectionError if the docker daemon is unreachable
     try:
-        return client.images.pull(name, tag=tag)
+        client.images.remove(image)
+        return str(image) + " removed successfully."
     except APIError as e:
         print "APIError exception thrown! Exception details:"
         print '\t', e
@@ -45,17 +45,12 @@ def pull_image(client,name,tag = "latest"):
 def main(client):
     # get arguments
     argLen = len(sys.argv)
-    if not 2 <= argLen <= 3:
-        print "Error: Invalid arguments. ./pull_image imageName tag"
+    if argLen > 2:
+        print "Error: Invalid arguments. ./remove_image image"
         sys.exit(0)
     else:
         imageName = sys.argv[1]
-        # Check for a passed image tag
-        if argLen == 3:
-            imageTag = sys.argv[2]
-            print pull_image(client, imageName, imageTag)
-        else:
-            print pull_image(client,imageName)
+        print remove_image(client,imageName)
 
 if __name__ == '__main__':
     check = env_check()

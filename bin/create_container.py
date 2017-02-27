@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # James Houston
 # Container Orchestrator
-# pull_image.py
+# remove_container.py
 
 import docker
 import requests
 import sys
-import timeit
+from docker.errors import ContainerError
+from docker.errors import ImageNotFound
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
@@ -25,13 +26,23 @@ def env_check():
         print '\t', e
         return client,False
 
-def pull_image(client,name,tag = "latest"):
-    # Pull an image
+def create_container(client, imageName, command=None, detach=True, hostname=None, name=None, networkDisabled=True, networkMode=none, ports={}):
+    # Create a container
+    # Throws docker.errors.ContainerError if container exits with a non-zero exit code and detach is False
+    # Throws docker.errors.ImageNotFound if the specified image does not exist
     # Throws docker.errors.APIError if server returns an error
     # Throws requests.ConnectTimeout if the http request to docker times out
     # Throws requests.ConnectionError if the docker daemon is unreachable
     try:
-        return client.images.pull(name, tag=tag)
+        return client.containers.create(imageName, command=command, detach=detach, hostname=hostanme, name=name, network_disabled=networkDisabled, network_mode=networkMode, ports=ports)
+    except ContainerError as e:
+        # This is important
+        print "ContainerError exception thrown! Exception details:"
+        print '\t', e
+    except ImageNotFound as e:
+        # This is important
+        print "ImageNotFound exception thrown! Exception details:"
+        print '\t', e
     except APIError as e:
         print "APIError exception thrown! Exception details:"
         print '\t', e
@@ -41,23 +52,3 @@ def pull_image(client,name,tag = "latest"):
     except ConnectionError as e:
         print "ConnectionError exception thrown! Exception details:"
         print '\t', e
-
-def main(client):
-    # get arguments
-    argLen = len(sys.argv)
-    if not 2 <= argLen <= 3:
-        print "Error: Invalid arguments. ./pull_image imageName tag"
-        sys.exit(0)
-    else:
-        imageName = sys.argv[1]
-        # Check for a passed image tag
-        if argLen == 3:
-            imageTag = sys.argv[2]
-            print pull_image(client, imageName, imageTag)
-        else:
-            print pull_image(client,imageName)
-
-if __name__ == '__main__':
-    check = env_check()
-    if check[1] == True:
-        main(check[0])

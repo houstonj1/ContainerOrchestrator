@@ -5,12 +5,12 @@ Container Orchestrator using Docker Engine
 
 Progress Tracker:
 - Automation of Docker functions
-  - Pull images <===========> Initial version done
+  - Pull image <============> Initial version done
   - List images <===========> Initial version done
-  - Remove images <=========> Need to start
-  - Create containers <=====> Need to start
+  - Remove image <==========> Initial version done
+  - Create container <======> Initial version started *high priority*
   - List containers <=======> Initial version done
-  - Start containers <======> Need to start
-  - Stop containers <=======> Need to start
-  - Remove containers <=====> Need to start
-  - List container info <==> Need to start
+  - Start container <=======> Need to start
+  - Stop container <========> Need to start
+  - Remove container <======> Initial version done
+  - List container info <===> Need to start

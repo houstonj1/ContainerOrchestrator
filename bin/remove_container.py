@@ -1,12 +1,11 @@
 #!/usr/bin/python
 # James Houston
 # Container Orchestrator
-# pull_image.py
+# remove_container.py
 
 import docker
 import requests
 import sys
-import timeit
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
@@ -25,13 +24,15 @@ def env_check():
         print '\t', e
         return client,False
 
-def pull_image(client,name,tag = "latest"):
-    # Pull an image
+def remove_container(client, containerName, volBool = True, force = False):
+    # Remove a container
     # Throws docker.errors.APIError if server returns an error
     # Throws requests.ConnectTimeout if the http request to docker times out
     # Throws requests.ConnectionError if the docker daemon is unreachable
     try:
-        return client.images.pull(name, tag=tag)
+        container = client.containers.get(containerName)
+        container.remove(v=volBool,force=force)
+        return containerName + " removed successfully."
     except APIError as e:
         print "APIError exception thrown! Exception details:"
         print '\t', e
@@ -45,17 +46,32 @@ def pull_image(client,name,tag = "latest"):
 def main(client):
     # get arguments
     argLen = len(sys.argv)
-    if not 2 <= argLen <= 3:
-        print "Error: Invalid arguments. ./pull_image imageName tag"
+    boolList = ['true','True','false','False']
+    if not 2 <= argLen <= 4:
+        print "Error: Invalid arguments. ./remove_container containerName volBool=True force=False"
         sys.exit(0)
     else:
-        imageName = sys.argv[1]
-        # Check for a passed image tag
-        if argLen == 3:
-            imageTag = sys.argv[2]
-            print pull_image(client, imageName, imageTag)
+        containerName = sys.argv[1]
+        if argLen == 2:
+            print remove_container(client, containerName)
+        elif argLen == 3:
+            volBool = sys.argv[2]
+            if volBool not in boolList:
+                print "Error: Invalid argument. volBool and force arguments must be True or False"
+                sys.exit(0)
+            else:
+                volBool = bool(volBool)
+                print remove_container(client, containerName, volBool)
         else:
-            print pull_image(client,imageName)
+            volBool = sys.argv[2]
+            force = sys.argv[3]
+            if volBool not in boolList or force not in boolList:
+                print "Error: Invalid argument. volBool and force arguments must be True or False"
+                sys.exit(0)
+            else:
+                volBool = bool(volBool)
+                force = bool(force)
+                print remove_container(client, containerName, volBool, force)
 
 if __name__ == '__main__':
     check = env_check()
