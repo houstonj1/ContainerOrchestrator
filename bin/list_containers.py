@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # James Houston
-# List containers script
+# Container Orchestrator
+# list_containers.py
 
 import docker
 import requests
@@ -9,39 +10,30 @@ from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
 
-# Create docker client
-client = docker.from_env()
-
-# get arguments
-argLen = len(sys.argv)
-print argLen
-print sys.argv
-if argLen > 2:
-    print "Error: Invalid number of arguments. \'list_containers.py <bool(listAll)>\'"
-    sys.exit(0)
-
-# list contianer
-if argLen == 2:    # List all
-    allBool = sys.argv[1]
-    print allBool
-    if allBool not in ['true','True','false','False']:
-        print "Error: Invalid argument passed. Second argument is of type \'bool\'"
-    else:
-        allBool = bool(allBool)
-        try:
-            containerList = client.containers.list(allBool)
-        except APIError as e:
-            print "APIError exception thrown! Exception details:"
-            print '\t', e
-        except ConnectTimeout as e:
-            print "ConnectTimeout exception thrown! Exception details:"
-            print '\t', e
-        except ConnectionError as e:
-            print "ConnectionError exception thrown! Exception details:"
-            print '\t', e
-else:    # List running
+def env_check():
+    # Create the docker client
+    client = docker.from_env()
+    # Try to ping to ensure it is working
     try:
-        containerList = client.containers.list()
+        retVal = client.ping()
+        return client,retVal
+    except ConnectionError as e:
+        # Docker service is down....
+        # Try to bring back up?
+        print "ConnectionError exception thrown! Exception details:"
+        print '\t', e
+        return client,False
+
+def list_containers(client, listAll):
+    # Get the list of containers just running or all
+    # Throws docker.errors.APIError if server returns an error
+    # Throws requests.ConnectTimeout if the http request to docker times out
+    # Throws requests.ConnectionError if the docker daemon is unreachable
+    try:
+        if listAll:
+            containerList = client.containers.list(True)
+        else:
+            containerList = client.containers.list()
     except APIError as e:
         print "APIError exception thrown! Exception details:"
         print '\t', e
@@ -52,10 +44,45 @@ else:    # List running
         print "ConnectionError exception thrown! Exception details:"
         print '\t', e
 
-# Print contianer information
-print containerList
-for container in containerList:
-    shortId = container.short_id
-    name = container.name
-    status = container.status
-    print "Name:", name, "Short ID:", shortId, "Status:", status
+    return containerList
+
+def main(client):
+    # get arguments
+    argLen = len(sys.argv)
+    #print argLen
+    #print sys.argv
+    if argLen > 2:
+        print "Error: Invalid number of arguments. ./list_containers.py bool(listAll)"
+        sys.exit(0)
+    if argLen == 2:    # List all
+        allBool = sys.argv[1]
+        #print allBool
+        if allBool not in ['true','True','false','False']:
+            print "Error: Invalid argument passed. Second argument is of type \'bool\'"
+            sys.exit(0)
+        else:
+            allBool = bool(allBool)
+            containerList = list_containers(client,allBool)
+    else:    # List running
+        containerList = list_containers(client,False)
+
+    # Print contianer information
+    print containerList
+    idList,nameList,statusList = [],[],[]
+    for container in containerList:
+        shortId = container.short_id
+        idList.append(shortId)
+        name = container.name
+        nameList.append(name)
+        status = container.status
+        statusList.append(status)
+        print "Name:", name, "Short ID:", shortId, "Status:", status
+
+    print idList
+    print nameList
+    print statusList
+
+if __name__ == '__main__':
+    check = env_check()
+    if check[1] == True:
+        main(check[0])
