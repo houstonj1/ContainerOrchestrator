@@ -8,7 +8,7 @@ Progress Tracker:
   - Pull image <============> Initial version done
   - List images <===========> Initial version done
   - Remove image <==========> Initial version done
-  - Create container <======> Initial version started *high priority*
+  - Create container <======> Initial version started \*High priority\*
   - List containers <=======> Initial version done
   - Start container <=======> Need to start
   - Stop container <========> Need to start
