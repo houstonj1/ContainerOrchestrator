@@ -100,5 +100,5 @@ def main(client):
 
 if __name__ == '__main__':
     check = env_check()
-    if check[1] == True:
+    if check[1]:
         main(check[0])
