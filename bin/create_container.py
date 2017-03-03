@@ -26,8 +26,8 @@ def env_check():
         print '\t', e
         return client,False
 
-def create_container(client, imageName, command="", detach=True, hostname="",
-                     name="", networkDisabled=True, networkMode="host", ports={}, publish_all_ports=True):
+def create_container(client, imageName, command, detach=True, hostname="",
+                     name="", networkDisabled=False, networkMode="bridge", ports={}, publish_all_ports=False):
     # Create a container
     # Throws docker.errors.ContainerError if container exits with a non-zero exit code and detach is False
     # Throws docker.errors.ImageNotFound if the specified image does not exist
@@ -35,7 +35,7 @@ def create_container(client, imageName, command="", detach=True, hostname="",
     # Throws requests.ConnectTimeout if the http request to docker times out
     # Throws requests.ConnectionError if the docker daemon is unreachable
     try:
-        return client.containers.create(imageName, command=command, detach=detach,
+        return client.containers.create(imageName, command, detach=detach,
                                         hostname=hostname, name=name, network_disabled=networkDisabled,
                                         network_mode=networkMode, ports=ports, publish_all_ports=publish_all_ports)
     except ContainerError as e:
@@ -91,7 +91,6 @@ def main(client):
         if port2 == "None":
             port2 = None
         ports = {port1:int(port2)}
-        print ports
         print type(ports)
         print create_container(client,imageName,name=name,detach=detach,command=command,ports=ports)
     else:
