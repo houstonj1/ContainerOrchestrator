@@ -32,6 +32,7 @@ def start_container(client, containerName):
     try:
         container = client.containers.get(containerName)
         container.start()
+	    #print container.logs()
         return containerName + " started successfully."
     except APIError as e:
         print "APIError exception thrown! Exception details:"
