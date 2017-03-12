@@ -4,6 +4,7 @@
 # remove_container.py
 
 import docker
+import json
 import requests
 import sys
 from docker.errors import ContainerError
@@ -26,8 +27,7 @@ def env_check():
         print '\t', e
         return client,False
 
-def create_container(client, imageName, command, detach=True, hostname="",
-                     name="", networkDisabled=False, networkMode="bridge", ports={}, publish_all_ports=False):
+def create_container(client,imageName,command,detach,hostname,name,networkDisabled,networkMode,macAddr,ports,publishPorts):
     # Create a container
     # Throws docker.errors.ContainerError if container exits with a non-zero exit code and detach is False
     # Throws docker.errors.ImageNotFound if the specified image does not exist
@@ -35,9 +35,7 @@ def create_container(client, imageName, command, detach=True, hostname="",
     # Throws requests.ConnectTimeout if the http request to docker times out
     # Throws requests.ConnectionError if the docker daemon is unreachable
     try:
-        return client.containers.create(imageName, command, detach=detach,
-                                        hostname=hostname, name=name, network_disabled=networkDisabled,
-                                        network_mode=networkMode, ports=ports, publish_all_ports=publish_all_ports)
+        return client.containers.create(imageName,command,detach=detach,hostname=hostname,name=name,network_disabled=networkDisabled,network_mode=networkMode,mac_address=macAddr,ports=ports,publish_all_ports=publishPorts)
     except ContainerError as e:
         # This is important
         print "ContainerError exception thrown! Exception details:"
@@ -47,6 +45,7 @@ def create_container(client, imageName, command, detach=True, hostname="",
         print "ImageNotFound exception thrown! Exception details:"
         print '\t', e
     except APIError as e:
+        # Error 409 exception for network mode and mac address -- needs to be bridge to set a mac
         print "APIError exception thrown! Exception details:"
         print '\t', e
     except ConnectTimeout as e:
@@ -61,40 +60,24 @@ def main(client):
     argLen = len(sys.argv)
     # Check for required args
     if argLen < 2:
-        print "Error: Invalid arguments. ./create_container.py imageName name detach=True command=\"\" ports=\{\}"
+        print "Error: Invalid arguments."
+        print "./create_container.py imageName command detach hostname name networkDisabled networkMode macAddress ports publishPorts"
         sys.exit(0)
-    elif argLen == 2:
+    elif argLen >= 2:
         imageName = sys.argv[1]
-        print create_container(client,imageName)
-    elif argLen == 3:
-        imageName = sys.argv[1]
-        name = sys.argv[2]
-        print create_container(client,imageName,name=name)
-    elif argLen == 4:
-        imageName = sys.argv[1]
-        name = sys.argv[2]
-        detach = sys.argv[3]
-        print create_container(client,imageName,name=name,detach=detach)
-    elif argLen == 5:
-        imageName = sys.argv[1]
-        name = sys.argv[2]
-        detach = sys.argv[3]
-        command = sys.argv[4]
-        print create_container(client,imageName,name=name,detach=detach,command=command)
-    elif argLen == 7:
-        imageName = sys.argv[1]
-        name = sys.argv[2]
-        detach = sys.argv[3]
-        command = sys.argv[4]
-        port1 = sys.argv[5]
-        port2 = sys.argv[6]
-        if port2 == "None":
-            port2 = None
-        ports = {port1:int(port2)}
-        print type(ports)
-        print create_container(client,imageName,name=name,detach=detach,command=command,ports=ports)
+        command = sys.argv[2]
+        detach = bool(sys.argv[3])
+        hostname = sys.argv[4]
+        name = sys.argv[5]
+        networkOn = bool(sys.argv[6])
+        netMode = sys.argv[7]
+        mac = sys.argv[8]
+        ports = json.loads(sys.argv[9])
+        pubPorts = bool(sys.argv[10])
+        print create_container(client,imageName,command,detach,hostname,name,networkOn,netMode,mac,ports,pubPorts)
     else:
-        print "Error: Invalid arguments. ./create_container.py imageName name detach=True command=\"\" ports=\{\}"
+        print "Error: Invalid arguments."
+        print "./create_container.py imageName command detach hostname name networkDisabled networkMode macAddress ports publishPorts"
         sys.exit(0)
 
 if __name__ == '__main__':
