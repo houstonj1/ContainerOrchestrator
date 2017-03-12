@@ -49,6 +49,7 @@ def list_containers(client, listAll):
 def main(client):
     # get arguments
     argLen = len(sys.argv)
+    allBool = False
     #print argLen
     #print sys.argv
     if argLen > 2:
@@ -62,25 +63,30 @@ def main(client):
             sys.exit(0)
         else:
             allBool = bool(allBool)
-            containerList = list_containers(client,allBool)
-    else:    # List running
-        containerList = list_containers(client,False)
+
+    containerList = list_containers(client,allBool)
 
     # Print contianer information
-    print containerList
-    idList,nameList,statusList = [],[],[]
-    for container in containerList:
-        shortId = container.short_id
-        idList.append(shortId)
-        name = container.name
-        nameList.append(name)
-        status = container.status
-        statusList.append(status)
-        print "Name:", name, "Short ID:", shortId, "Status:", status
+    if containerList:
+        print containerList
+        idList,nameList,statusList = [],[],[]
+        for container in containerList:
+            shortId = container.short_id
+            idList.append(shortId)
+            name = container.name
+            nameList.append(name)
+            status = container.status
+            statusList.append(status)
+            print "Name:", name, "Short ID:", shortId, "Status:", status
+        print idList
+        print nameList
+        print statusList
+    else:
+        if allBool:
+            print "No containers on the system!"
+        else:
+            print "No running containers on the system!"
 
-    print idList
-    print nameList
-    print statusList
 
 if __name__ == '__main__':
     check = env_check()
