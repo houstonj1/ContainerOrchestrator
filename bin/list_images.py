@@ -4,6 +4,7 @@
 # list_images.py
 
 import docker
+import humanize
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
@@ -41,12 +42,16 @@ def list_images(client):
 
 def main(client):
     images = list_images(client)
-    count = 1
     if images:
-        print "Image List: ", images
-        print "Image Names:"
+        count = 1
+        print "Image List:", images
+        print "  NAME\t\t\tSIZE"
         for image in images:
-            print str(count) + '.', image.tags[0]
+            image = image.attrs
+            if len(str(image["RepoTags"][0])) <= 13:
+                print str(count) + "." + str(image["RepoTags"][0]) + "\t\t" +  str(humanize.naturalsize(image["Size"]))
+            else:
+                print str(count) + "." + str(image["RepoTags"][0]) + "\t" +  str(humanize.naturalsize(image["Size"]))
             count += 1
     else:
         print "No images available on local system. <insert suggestion to pull image>"
