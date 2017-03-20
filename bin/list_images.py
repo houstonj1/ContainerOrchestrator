@@ -5,9 +5,11 @@
 
 import docker
 import humanize
+import json
 from docker.errors import APIError
 from requests import ConnectionError
 from requests import ConnectTimeout
+from string import Template
 
 def env_check():
     # Create the docker client
@@ -43,16 +45,13 @@ def list_images(client):
 def main(client):
     images = list_images(client)
     if images:
-        count = 1
-        print "Image List:", images
-        print "  NAME\t\t\tSIZE"
+        imageDict = {}
         for image in images:
             image = image.attrs
-            if len(str(image["RepoTags"][0])) <= 13:
-                print str(count) + "." + str(image["RepoTags"][0]) + "\t\t" +  str(humanize.naturalsize(image["Size"]))
-            else:
-                print str(count) + "." + str(image["RepoTags"][0]) + "\t" +  str(humanize.naturalsize(image["Size"]))
-            count += 1
+            name = str(image["RepoTags"][0])
+            size = str(humanize.naturalsize(image["Size"]))
+            imageDict[name] = size
+        print json.dumps(imageDict)
     else:
         print "No images available on local system. <insert suggestion to pull image>"
 
