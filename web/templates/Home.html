@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+	<script src="jquery-3.1.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<script src="bootstrap.min.js"></script>
+	<meta name="viewpoint" width="device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+	var arrButtons = [{"Display_Text":"Home","URL":"Home.html",},{"Display_Text":"Image","URL":"Image.html"},{"Display_Text":"Container","URL":"Container.html"}];
+	var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
+	$(document).ready(function() {
+	var tbl = "<table>";
+	var tr = "<tr>";
+	   for (var i=0;i<arrButtons.length;i++) {
+	   	   var url = arrButtons[i].URL;
+		   var color = 'red';
+		   if (i == 0) {  
+		   color = 'blue'; 
+		   }
+		   //alert(url);  
+  		   //var td = "<td style='padding:4px;'><input type='button' value='" + arrButtons[i].Display_Text + "' onclick=goto('" +url + "');  /></td>"  ;
+		   var td = "<td style='padding:4px;'><input class='menu_buttons textbox' type='button' value='" + arrButtons[i].Display_Text + "'  /><span style='display:none;'>" +url + "</span> </td>"  ;
+		   //var myDiv = "<div style='background-color:" + color + "'>" + url  + "</div>"
+		   tr = tr + td;
+	   }
+	   tr= tr + "</tr>";
+	   tbl = tbl +  tr + "</table>";
+	   
+	   $("#dvMenuBar").html(tbl);
+	});
+	
+	$(document).on("mouseover",".menu_buttons",function()
+	{
+	 var btn_offset = $(this).offset();
+	 
+	 //alert(btn_offset.left);
+	 //alert(btn_offset.top);
+	 var src;
+	 var imgKey = $(this).val();
+	 for(var i=0;i<imageSource.length;i++)
+	 {
+	  //alert(imageSource[i].Display_Text);
+	  if(imgKey == imageSource[i].Display_Text)
+	  {
+	   src = imageSource[i].src;
+	   //alert(src);
+	   break;
+	  }
+	 }
+	 $("#menu_img_icon").parent().css({position:'relative'});
+	 $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
+	 
+	 //var img = "<img class='img_style' src='" + src + "' ></img>";
+	 var img = src
+	 $("#menu_img_icon").html(img);
+	 //$("#dvMenuBar").append(img);
+	 
+
+	//C:\Spring2017\SE\ProjectWebsite\rs.jpeg
+	
+	})
+	
+	$(document).on("mouseleave",".menu_buttons",function()
+	{
+	 
+	 $("#menu_img_icon").html("");
+	})
+	
+	function goto(url) {
+	window.location.href = url;
+	//alert(url);
+	}
+	$(document).on("click", ".menu_buttons", function() 
+	{
+	   var $td = $(this).parent("td");
+	   var $span = $td.children("span");
+	   window.location.href = $span.text();
+	} )
+	
+	</script>
+	<style>
+	html, body
+	 {
+	  height:100%;
+	  width:100%;
+	 }
+	
+	.topGap
+	{
+	 position: relative;
+	 top: 10%;
+	}
+	 .textbox
+	 {
+	  border-radius: 5px;
+	  height: 40px;
+	  width: 200px;
+	  padding: 5px;
+	  border-style: none;
+	  background-color: #ff9800;
+	 }
+	 .center_div
+	 {
+	  display:table;
+	  margin:0 auto;
+	 }
+	 .remove_padding
+	 {
+	  margin-left:-20px;
+ 	  margin-right:-20px;
+	 }
+	  #tbl_system td
+	 {
+	  padding:10px;
+	 }
+	 #tbl_system th
+	 {
+	  padding:10px;
+	  background-color:#ffcc80;
+	 }
+	</style>
+  </head>
+  <body style="background-color:#ffcc80">
+  		<div class="container-fluid topGap">
+			 <div class="row">
+			 	  <div id="menu_img_icon"></div>
+			 	  <div class="col-md-2"><p style="background-color:red"></p></div>
+				  <div class="col-md-8" style="background-color:white">
+				  	   <div class='remove_padding' style="background-color:#ff9800">
+					   		<div id='dvMenuBar' class='center_div'></div>
+					   </div>
+					   <!--<p>Hi</p>-->
+					   <div style='margin-top:70px; background-color:red;'>
+					   		<div style='float:left; margin-left: 70px;'><img src='usedImages.png' style='width:300px; height:300px;'></img></div>
+							<div style='float:right; margin-right:70px; margin-top:7%;'>
+							<table id='tbl_system' width=300px frame='box'>
+								   <caption style='background-color:#ffcc80; text-align:center; color: black;'>SYSTEM INFORMATION</caption>
+								     <tr align='center'>
+									 	 <td>DOCKER VERSION</td>
+										 <td>1.26</td>
+									 </tr>
+								   	 <tr align='center'>
+								   	   <td >CPU</td>
+									   <td>2.35/4 GB</td>
+								     </tr>
+									 <tr align='center'>
+									 	 <td>MEMORY</td>
+										 <td>6/16 GB</td>
+									 </tr>
+									  <tr align='center'>
+									 	 <td>HDD</td>
+										 <td>50/128 GB</td>
+									 </tr>
+								  </table></div>
+					   </div>
+					   <!--<div><img src='C:\Spring2017\SE\ProjectWebsite\usedImages.png'></img></div>-->
+					   <!--<div class='container-fluid remove_padding' style='background-color:#ffcc80'><p>Hi</p>
+					   </div>-->
+				  </div>
+				  <div class="col-md-2">
+				  </div>
+				  <div
+			 </div>
+		</div>
+  </body>
+</html>
