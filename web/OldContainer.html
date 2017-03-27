@@ -2,10 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Container</title>
+    <title>Containers</title>
 	<script src="jquery-3.1.1.js"></script>
 	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="Container.css">
 	<script src="bootstrap.min.js"></script>
 	<meta name="viewpoint" width="device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,7 +33,7 @@
 	   
 	   for(var j=0;j<containerSource.length;j++)
 	   {
-	   	var td = "<td style='padding:4px;'><input class='containerBtn containerBtns' type='button' value='" + containerSource[j].Display_Text + "'  /></td>" ;
+	   	var td = "<td style='padding:4px;'><input class='textbox' style='background-color:red;color:white;' type='button' value='" + containerSource[j].Display_Text + "'  /></td>" ;
 		tr = tr + td;
 		//alert(containerSource[j].Display_Text);
 	   }
@@ -62,7 +61,7 @@
 	  }
 	 }
 	 $("#menu_img_icon").parent().css({position:'relative'});
-	 $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
+	 $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
 	 
 	 //var img = "<img class='img_style' src='" + src + "' ></img>";
 	 var img = src
@@ -92,25 +91,60 @@
 	} )
 	
 	</script>
+	<style>
+	html, body
+	 {
+	  height:100%;
+	  width:100%;
+	 }
+	
+	.topGap
+	{
+	 position: relative;
+	 top: 10%;
+	}
+	 .textbox
+	 {
+	  border-radius: 5px;
+	  height: 40px;
+	  width: 200px;
+	  padding: 5px;
+	  border-style: none;
+	  background-color: #ff9800;
+	 }
+	 .center_div
+	 {
+	  display:table;
+	  margin:0 auto;
+	 }
+	 .remove_padding
+	 {
+	  margin-left:-20px;
+ 	  margin-right:-20px;
+	 }
+	 #tbl_container td
+	 {
+	  padding:10px;
+	 }
+	 #tbl_container th
+	 {
+	  padding:10px;
+	  background-color:#ffcc80;
+	 }
+	</style>
   </head>
-  <body>
-  		<div>
-			 <img src="logo.png" style="margin-top:5px;margin-left:5px;"></img>
-		</div>
+  <body style="background-color:#ffcc80">
   		<div class="container-fluid topGap">
 			 <div class="row">
 			 	  <div id="menu_img_icon"></div>
-			 	  <div class="col-md-2"></div>
-				  <div class="col-md-8" style="background-color:white; height=100%;border-radius:5px;">
-				  	   <div class='remove_padding' style="background-color:#029f5b; border-radius:5px;">
+			 	  <div class="col-md-2"><p style="background-color:red"></p></div>
+				  <div class="col-md-8" style="background-color:white; height=100%;">
+				  	   <div class='remove_padding' style="background-color:#ff9800">
 					   		<div id='dvMenuBar' class='center_div'></div>
 					   </div>
-					   <div class='remove_padding' style='margin-top:20px;'>
+					   <div style='margin-top:20px'>
 					   		<div id='container_menu' class='center_div'></div>
 					   </div>
-					   <!--<div style='margin-top:20px; width:100%;'>
-					   		<div id='container_menu' class='center_div'></div>
-					   </div>-->
 					   <div style='margin-top:20px'>
 					   		<table id='tbl_container' width=100% frame='box'>
 								   <tr>

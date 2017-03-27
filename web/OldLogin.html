@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<title>Login</title>
+    <script src="jquery-3.1.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<script src="bootstrap.min.js"></script>
+	<meta name="viewpoint" width="device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<style>
+	 html, body
+	 {
+	  height:100%;
+	  width:100%;
+	 }
+	 section.fullScreen
+	 {
+	  position:static;
+	  background-color: #ffcc80;
+	  width: 100%;
+      height: 100%;
+	 }
+	 .center
+	 {
+	  position:relative;
+	  top: 35%
+	 }
+	 .bottom
+	 {
+	  position:relative;
+	  top:50%
+	 }
+	 .left
+	 {
+	  position:relative;
+	  left:20%
+	 }
+	 .gap
+	 {
+	  margin-bottom:2%;
+	 }
+	 .wrap-content_right
+	 {
+	  display:table;
+	  float:right;
+	  clear:right;
+	  <!-- background-color:yellow; -->
+	 }
+	 .wrap-content_left
+	 {
+	  display:table;
+	  float:left;
+	  clear:left;
+	  <!-- background-color:yellow; -->
+	 }
+	 .textbox
+	 {
+	  border-radius: 5px;
+	  height: 40px;
+	  width: 200px;
+	  padding: 5px;
+	  border-style: solid;
+	  border-color: #ff9800";
+	 }
+	 .info_para
+	 {
+	  margin-left:10px;
+	  margin-right:50px;
+	  text-align:justify; 
+	  text-justify:inter-word;
+	 }
+	 
+	</style>
+  </head>
+  <body>
+  		<section class="fullScreen">
+		 <div class="container-fluid center">
+		  <div class="row">
+		   <div class="col-md-6 text-right" >
+		    <div >
+			 <div class="wrap-content_right">
+			 
+			 <form action ="../php/register.php" method="post" class="form" onsubmit ="return clickCheck()">
+			  <fieldset>
+			  <p class="text-left">SIGN-UP</p>
+			  <div class="gap"><input class="textbox" id="username" name="username" type="text" placeholder="Username"></input></div>
+			  <div class="gap"><input class="textbox" id="signup_pass" name="signup_pass" type="password" placeholder="Password"></input></div>
+			  <div class="gap"><input class="textbox" id="signup_confpass" name="signup_confpass" type="password" placeholder="Confirm Password"></input><br></div>
+			  <div class="text-center"><button class="textbox" id="signup_btn" onclick="return clickCheck()" type="submit" value="Register" style="background-color:#ff9800; color: white;">Register</input></div>
+			  </fieldset>
+			  </form>
+			  
+			 </div>
+			</div>
+		   </div>
+		   <div class="col-md-6 text-left" >
+		    <div class="wrap-content_left">
+			
+			<form action ="../php/login.php" method="post" class="form" onsubmit ="return clickCheck()">
+			<fieldset>
+			 <p class="text-left">LOGIN</p>
+			 <div class="gap"><input class="textbox" id="loginusr" name="loginusr" type="text" placeholder="Username"></input></div>
+			 <div class="gap"><input class="textbox" id="password" name="password" type="password" placeholder="Password"</input></div>
+			 <div class="text-center gap"><button class="textbox" id="login_btn" onclick="return clickCheck()" type="submit" value="Login" style="background-color:#ff9800; color: white;">Login</input></div>
+			 <div class="text-center gap"><button class="textbox" id="forget_pass" type="submit" value="Forget Password" style="background-color:#ff9800; color: white;">Forgot Password</input></div>
+			 </fieldset>
+			 </form>
+			 
+			</div>
+		   </div>
+		  </div>
+		 </div>
+		 <div class="bottom text-center">
+		  <nav>
+		   <a href="#info">
+		    <!--<image src="C:\Spring2017\SE\ProjectWebsite\nav.png"></image>-->
+			<i class="fa fa-angle-double-down" style="font-size:68px;color:black"></i>
+			<h3>ABOUT US</h3>
+		   </a>
+		  </nav>
+		 </div>
+		</section>
+		<div style="margin-left:50px;margin-right:50px;">
+		 <h1 id="info" style="color:#e65100">
+		  WHY CONTAINER ORCHESTRATOR?
+		 </h1>
+		 <div class="info_para">
+		  <h4><p>The Container Orchestrator system is a packaged Linux application that allows users to use, manage, and monitor the lifecycle of containerized applications from a web interface. The application is designed to accompany an installation of the Docker Engine, created by Docker Inc. Using the Container Orchestrator application with the Docker Engine will provide users with the ability to create and manage containers from trusted, secure Docker images within a single management interface. In addition, users who build and modify content within Docker Inc.’s public container registry, Docker Hub, will be able to pull, deploy and test their own applications on their own system. 
+          The Container Orchestrator application is packaged as a web application accompanied with a web server in order to host the web content and communicate with the Docker Engine. To pull images from Docker Hub, the application host is required to have an internet connection capable of reaching the Docker Hub registry. 
+         </h4>
+		 </div>
+		</div>
+  <!--COLORS  style="background-color:#aa66cc", style="background-color:red", style="background-color:yellow" -->
+  </body>
+</html>
