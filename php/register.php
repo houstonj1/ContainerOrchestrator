@@ -14,8 +14,8 @@
 	
 	//storing information to variables
 	$username = $_POST["username"]; 
-	$pass = $_POST["signup_pass"]; 
-	$confirmpass = $_POST["signup_confpass"];
+	$pass = $_POST["password"]; 
+	$confirmpass = $_POST["confirm-password"];
 	
 	//Verify if the password and confirm pass are the same
 	if($pass != $confirmpass)
