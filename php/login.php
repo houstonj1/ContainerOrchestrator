@@ -26,11 +26,11 @@
 		$row = $result -> fetch_assoc();
 		$_SESSION["userid"] = $row["userid"];
 		$_SESSION["username"] = $user;
-		header("Location: ../html/Home.html"); 
+		header("Location: ../web/Home.html"); 
 	}
 	else
 	{
 		echo "<script>alert(\"Username or password is incorrect! Try Again!\");</script>";
-		header("Location: ../html/Login.html");
+		header("Location: ../web/Login.html");
 	}
 ?>

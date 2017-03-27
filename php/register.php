@@ -46,5 +46,5 @@
 	}
 	
 	//load next page
-	header("Location: ../html/Login.html"); 
+	header("Location: ../web/Login.html"); 
 ?>
