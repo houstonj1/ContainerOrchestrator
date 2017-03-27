@@ -15,7 +15,7 @@
 		exit($output);
 	}
 	
-	$user = $_POST['loginusr'];
+	$user = $_POST['username'];
 	$pass = $_POST['password'];
 	
 	$sql = "SELECT userid FROM account WHERE username = '$user' AND password = '$pass'";
