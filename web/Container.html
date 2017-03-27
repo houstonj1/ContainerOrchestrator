@@ -3,158 +3,74 @@
   <head>
     <meta charset="utf-8">
     <title>Container</title>
-	<script src="javascript/jquery-3.1.1.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/Container.css">
-	<script src="javascript/bootstrap.min.js"></script>
-	<meta name="viewpoint" width="device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-	var arrButtons = [{"Display_Text":"Home","URL":"Home.html",},{"Display_Text":"Image","URL":"Image.html"},{"Display_Text":"Container","URL":"Container.html"}];
-	var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
-	var containerSource =[{"Display_Text":"Create"},{"Display_Text":"Start"},{"Display_Text":"Stop"},{"Display_Text":"Remove"}];
-	$(document).ready(function() {
-	var tbl = "<table>";
-	var tr = "<tr>";
-	   for (var i=0;i<arrButtons.length;i++) {
-	   	   var url = arrButtons[i].URL;
-		   //alert(url);  
-  		   //var td = "<td style='padding:4px;'><input type='button' value='" + arrButtons[i].Display_Text + "' onclick=goto('" +url + "');  /></td>"  ;
-		   var td = "<td style='padding:4px;'><input class='menu_buttons textbox' type='button' value='" + arrButtons[i].Display_Text + "'  /><span style='display:none;'>" +url + "</span> </td>"  ;
-		   //var myDiv = "<div style='background-color:" + color + "'>" + url  + "</div>"
-		   tr = tr + td;
-	   }
-	   tr= tr + "</tr>";
-	   tbl = tbl +  tr + "</table>";
-	   $("#dvMenuBar").html(tbl);
-	   tbl = "";
-	   tr = "";
-	   tbl = "<table>";
-	   tr = "<tr>";
-	   
-	   for(var j=0;j<containerSource.length;j++)
-	   {
-	   	var td = "<td style='padding:4px;'><input class='containerBtn containerBtns' type='button' value='" + containerSource[j].Display_Text + "'  /></td>" ;
-		tr = tr + td;
-		//alert(containerSource[j].Display_Text);
-	   }
-	   tr = tr + "</tr>";
-	   tbl = tbl + tr + "</table>";
-	   $("#container_menu").html(tbl);
-	});
-	
-	$(document).on("mouseover",".menu_buttons",function()
-	{
-	 var btn_offset = $(this).offset();
-	 
-	 //alert(btn_offset.left);
-	 //alert(btn_offset.top);
-	 var src;
-	 var imgKey = $(this).val();
-	 for(var i=0;i<imageSource.length;i++)
-	 {
-	  //alert(imageSource[i].Display_Text);
-	  if(imgKey == imageSource[i].Display_Text)
-	  {
-	   src = imageSource[i].src;
-	   //alert(src);
-	   break;
-	  }
-	 }
-	 $("#menu_img_icon").parent().css({position:'relative'});
-	 $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
-	 
-	 //var img = "<img class='img_style' src='" + src + "' ></img>";
-	 var img = src
-	 $("#menu_img_icon").html(img);
-	 //$("#dvMenuBar").append(img);
-	 
-
-	//C:\Spring2017\SE\ProjectWebsite\rs.jpeg
-	
-	})
-	
-	$(document).on("mouseleave",".menu_buttons",function()
-	{
-	 
-	 $("#menu_img_icon").html("");
-	})
-	
-	function goto(url) {
-	window.location.href = url;
-	//alert(url);
-	}
-	$(document).on("click", ".menu_buttons", function() 
-	{
-	   var $td = $(this).parent("td");
-	   var $span = $td.children("span");
-	   window.location.href = $span.text();
-	} )
-	
-	</script>
+    <script src="js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/container.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/container.css">
+    <script src="js/bootstrap.min.js"></script>
+    <meta name="viewpoint" width="device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
-  		<div>
-			 <img src="images/logo.png" style="margin-top:5px;margin-left:5px;"></img>
+    <div>
+      <img src="img/logo.png" style="margin-top:5px;margin-left:5px;">
 		</div>
-  		<div class="container-fluid topGap">
-			 <div class="row">
-			 	  <div id="menu_img_icon"></div>
-			 	  <div class="col-md-2"></div>
-				  <div class="col-md-8" style="background-color:white; height=100%;border-radius:5px;">
-				  	   <div class='remove_padding' style="background-color:#029f5b; border-radius:5px;">
-					   		<div id='dvMenuBar' class='center_div'></div>
-					   </div>
-					   <div class='remove_padding' style='margin-top:20px;'>
-					   		<div id='container_menu' class='center_div'></div>
-					   </div>
-					   <!--<div style='margin-top:20px; width:100%;'>
-					   		<div id='container_menu' class='center_div'></div>
-					   </div>-->
-					   <div style='margin-top:20px'>
-					   		<table id='tbl_container' width=100% frame='box'>
-								   <tr>
-								   	   <th></th>
-								   	   <th style="text-align:center">Container Name</th>
-									   <th style="text-align:center">Size</th>
-									   <th style="text-align:center">Status</th>
-									   <th style="text-align:center">Created By</th>
-								   </tr>
-								   <tr align='center'>
-								   	   <td><input type="checkbox" name="containerStatus"></td>
-								   	   <td>Container1</td>
-									   <td>5.0GB</td>
-									   <td>Running</td>
-									   <td>Jishnu</td>
-								   </tr>
-								   <tr align='center' style='padding:10px'>
-								   	   <td><input type="checkbox" name="containerStatus"></td>
-								   	   <td>Container2</td>
-									   <td>2.8GB</td>
-									   <td>Stopped</td>
-									   <td>James</td>
-								   </tr>
-								     <tr align='center'>
-								   	   <td><input type="checkbox" name="containerStatus"></td>
-								   	   <td>Container3</td>
-									   <td>7.0GB</td>
-									   <td>Created</td>
-									   <td>JJ</td>
-								   </tr>
-								     <tr align='center'>
-								   	   <td><input type="checkbox" name="containerStatus"></td>
-								   	   <td>Container4</td>
-									   <td>1.6GB</td>
-									   <td>Running</td>
-									   <td>Jishnu</td>
-								   </tr>
-							</table>
-					   </div>
-				  </div>
-				  <div class="col-md-2">
-				  </div>
-				  <div
-			 </div>
-		</div>
+    <div class="container-fluid topGap">
+      <div class="row">
+        <div id="menu_img_icon"></div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8" style="background-color:white; height=100%;border-radius:5px;">
+          <div class='remove_padding' style="background-color:#029f5b; border-radius:5px;">
+            <div id='dvMenuBar' class='center_div'></div>
+					</div>
+					<div class='remove_padding' style='margin-top:20px;'>
+            <div id='container_menu' class='center_div'></div>
+          </div>
+          <!--<div style='margin-top:20px; width:100%;'>
+					 		<div id='container_menu' class='center_div'></div>
+					</div>-->
+					<div style='margin-top:20px'>
+            <table id='tbl_container' width=100% frame='box'>
+              <tr>
+                <th></th>
+								<th style="text-align:center">Container Name</th>
+								<th style="text-align:center">Size</th>
+								<th style="text-align:center">Status</th>
+								<th style="text-align:center">Created By</th>
+							</tr>
+							<tr align='center'>
+							  <td><input type="checkbox" name="containerStatus"></td>
+							  <td>Container1</td>
+							  <td>5.0GB</td>
+								<td>Running</td>
+								<td>Jishnu</td>
+							</tr>
+							<tr align='center' style='padding:10px'>
+                <td><input type="checkbox" name="containerStatus"></td>
+								<td>Container2</td>
+								<td>2.8GB</td>
+								<td>Stopped</td>
+								<td>James</td>
+							</tr>
+							<tr align='center'>
+							  <td><input type="checkbox" name="containerStatus"></td>
+							  <td>Container3</td>
+							  <td>7.0GB</td>
+							  <td>Created</td>
+							  <td>JJ</td>
+						  </tr>
+							<tr align='center'>
+                <td><input type="checkbox" name="containerStatus"></td>
+                <td>Container4</td>
+								<td>1.6GB</td>
+								<td>Running</td>
+								<td>Jishnu</td>
+							</tr>
+            </table>
+          </div>
+				 </div>
+			 <div class="col-md-2"></div>
+		  </div>
+    </div>
   </body>
 </html>

@@ -3,160 +3,41 @@
   <head>
     <meta charset="utf-8">
     <title>Image</title>
-	<script src="jquery-3.1.1.js"></script>
-	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-	<script src="bootstrap.min.js"></script>
-	<meta name="viewpoint" width="device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-	var arrButtons = [{"Display_Text":"Home","URL":"Home.html",},{"Display_Text":"Image","URL":"Image.html"},{"Display_Text":"Container","URL":"Container.html"}];
-	var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
-	$(document).ready(function() {
-	var tbl = "<table>";
-	var tr = "<tr>";
-	   for (var i=0;i<arrButtons.length;i++) {
-	   	   var url = arrButtons[i].URL;
-		   var color = 'red';
-		   if (i == 0) {  
-		   color = 'blue'; 
-		   }
-		   //alert(url);  
-  		   //var td = "<td style='padding:4px;'><input type='button' value='" + arrButtons[i].Display_Text + "' onclick=goto('" +url + "');  /></td>"  ;
-		   var td = "<td style='padding:4px;'><input class='menu_buttons textbox' type='button' value='" + arrButtons[i].Display_Text + "'  /><span style='display:none;'>" +url + "</span> </td>"  ;
-		   //var myDiv = "<div style='background-color:" + color + "'>" + url  + "</div>"
-		   tr = tr + td;
-	   }
-	   tr= tr + "</tr>";
-	   tbl = tbl +  tr + "</table>";
-	   
-	   $("#dvMenuBar").html(tbl);
-	});
-	
-	$(document).on("mouseover",".menu_buttons",function()
-	{
-	 var btn_offset = $(this).offset();
-	 
-	 //alert(btn_offset.left);
-	 //alert(btn_offset.top);
-	 var src;
-	 var imgKey = $(this).val();
-	 for(var i=0;i<imageSource.length;i++)
-	 {
-	  //alert(imageSource[i].Display_Text);
-	  if(imgKey == imageSource[i].Display_Text)
-	  {
-	   src = imageSource[i].src;
-	   //alert(src);
-	   break;
-	  }
-	 }
-	 $("#menu_img_icon").parent().css({position:'relative'});
-	 $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
-	 
-	 //var img = "<img class='img_style' src='" + src + "' ></img>";
-	 var img = src
-	 $("#menu_img_icon").html(img);
-	 //$("#dvMenuBar").append(img);
-	 
-
-	//C:\Spring2017\SE\ProjectWebsite\rs.jpeg
-	
-	})
-	
-	$(document).on("mouseleave",".menu_buttons",function()
-	{
-	 
-	 $("#menu_img_icon").html("");
-	})
-	
-	function goto(url) {
-	window.location.href = url;
-	//alert(url);
-	}
-	$(document).on("click", ".menu_buttons", function() 
-	{
-	   var $td = $(this).parent("td");
-	   var $span = $td.children("span");
-	   window.location.href = $span.text();
-	} )
-	
-	</script>
-	<style>
-	html, body
-	 {
-	  height:100%;
-	  width:100%;
-	 }
-	
-	.topGap
-	{
-	 position: relative;
-	 top: 10%;
-	}
-	 .textbox
-	 {
-	  border-radius: 5px;
-	  height: 40px;
-	  width: 200px;
-	  padding: 5px;
-	  border-style: none;
-	  background-color: #ff9800;
-	 }
-	 .center_div
-	 {
-	  display:table;
-	  margin:0 auto;
-	 }
-	 .remove_padding
-	 {
-	  margin-left:-20px;
- 	  margin-right:-20px;
-	 }
-	 #div_img img
-	 {
-	  margin: 0px 20px;
-	 }
-	 .path_box
-	 {
-	  border-radius: 5px;
-	  height: 40px;
-	  width: 500px;
-	  padding: 5px;
-	  border-color:#ff9800;
-	  float:left;
-	 }
-	</style>
+    <script src="js/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <meta name="viewpoint" width="device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="image.js"></script>
+	  <link rel="stylesheet" type="text/css" href="css/image.css" />
   </head>
   <body style="background-color:#ffcc80">
-  		<div class="container-fluid topGap">
-			 <div class="row">
-			 	  <div id="menu_img_icon"></div>
-			 	  <div class="col-md-2"><p style="background-color:red"></p></div>
-				  <div class="col-md-8" style="background-color:white">
-				  	   <div class='remove_padding' style="background-color:#ff9800">
-					   		<div id='dvMenuBar' class='center_div'></div>
-					   </div>
-					   <div>
-					   		<div id='div_img' class='center_div' style='margin-top:15px; margin-bottom:20px'>
-								 <h4><b><i>Pull Images</i></b></h4>
-								 <a href="Container.html"><img src='nginx.png' /></a>
-								 <a href="Container.html"><img src='redis.png' /></a>
-								 <a href="Container.html"><img src='ubuntu.png' /></a>
-								 <a href="Container.html"><img src='docker.png' /></a>
-							</div>
-							<hr style="height:2px;border-width:0;color:gray;background-color:#ff9800">
-							
-						</div>
-						<div style='margin-bottom:10px'>
-							 <input class='path_box' id="username" type="text" placeholder="Image Path"></input></div>
-							 <input class="textbox" id="login_btn" type="button" value="Pull Image" style="background-color:#ff9800; color: white;" />
-							 <hr style="height:2px;border-width:0;color:gray;background-color:#ff9800">
-						</div>
-				  </div>
-				  <div class="col-md-2">
-				  </div>
-				  <div
-			 </div>
+    <div class="container-fluid topGap">
+      <div class="row">
+        <div id="menu_img_icon"></div>
+        <div class="col-md-2"><p style="background-color:red"></p></div>
+        <div class="col-md-8" style="background-color:white">
+          <div class='remove_padding' style="background-color:#ff9800">
+            <div id='dvMenuBar' class='center_div'></div>
+          </div>
+					<div>
+            <div id='div_img' class='center_div' style='margin-top:15px; margin-bottom:20px'>
+              <h4><b><i>Pull Images</i></b></h4>
+              <a href="Container.html"><img src='img/nginx.png' /></a>
+							<a href="Container.html"><img src='img/redis.png' /></a>
+							<a href="Container.html"><img src='img/ubuntu.png' /></a>
+							<a href="Container.html"><img src='img/docker.png' /></a>
+					  </div>
+						<hr style="height:2px;border-width:0;color:gray;background-color:#ff9800">
+          </div>
+					<div style='margin-bottom:10px'>
+            <input class='path_box' id="username" type="text" placeholder="Image Path"></input>
+          </div>
+					<input class="textbox" id="login_btn" type="button" value="Pull Image" style="background-color:#ff9800; color: white;" />
+					<hr style="height:2px;border-width:0;color:gray;background-color:#ff9800">
+				</div>
+			</div>
+			<div class="col-md-2"></div>
 		</div>
   </body>
 </html>
