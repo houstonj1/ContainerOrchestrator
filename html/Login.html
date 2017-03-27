@@ -80,21 +80,33 @@
 		   <div class="col-md-6 text-right" >
 		    <div >
 			 <div class="wrap-content_right">
+			 
+			 <form action ="../php/register.php" method="post" class="form" onsubmit ="return clickCheck()">
+			  <fieldset>
 			  <p class="text-left">SIGN-UP</p>
-			  <div class="gap"><input class="textbox" id="username" type="text" placeholder="Username"></input></div>
-			  <div class="gap"><input class="textbox" id="signup_pass" type="password" placeholder="Password"></input></div>
-			  <div class="gap"><input class="textbox" id="signup_confpass" type="password" placeholder="Confirm Password"></input><br></div>
-			  <div class="text-center"><input class="textbox" id="signup_btn" type="submit" value="Register" style="background-color:#ff9800; color: white;"></input></div>
+			  <div class="gap"><input class="textbox" id="username" name="username" type="text" placeholder="Username"></input></div>
+			  <div class="gap"><input class="textbox" id="signup_pass" name="signup_pass" type="password" placeholder="Password"></input></div>
+			  <div class="gap"><input class="textbox" id="signup_confpass" name="signup_confpass" type="password" placeholder="Confirm Password"></input><br></div>
+			  <div class="text-center"><button class="textbox" id="signup_btn" onclick="return clickCheck()" type="submit" value="Register" style="background-color:#ff9800; color: white;">Register</input></div>
+			  </fieldset>
+			  </form>
+			  
 			 </div>
 			</div>
 		   </div>
 		   <div class="col-md-6 text-left" >
 		    <div class="wrap-content_left">
+			
+			<form action ="../php/login.php" method="post" class="form" onsubmit ="return clickCheck()">
+			<fieldset>
 			 <p class="text-left">LOGIN</p>
-			 <div class="gap"><input class="textbox" id="loginusr" type="text" placeholder="Username"></input></div>
-			 <div class="gap"><input class="textbox" id="password" type="password" placeholder="Password"</input></div>
-			 <div class="text-center gap"><input class="textbox" id="login_btn" type="button" value="Login" style="background-color:#ff9800; color: white;" onclick="window.location.href='Home.html';"> </input></div>
-			 <div class="text-center gap"><input class="textbox" id="forget_pass" type="Submit" value="Forget Password" style="background-color:#ff9800; color: white;"></input></div>
+			 <div class="gap"><input class="textbox" id="loginusr" name="loginusr" type="text" placeholder="Username"></input></div>
+			 <div class="gap"><input class="textbox" id="password" name="password" type="password" placeholder="Password"</input></div>
+			 <div class="text-center gap"><button class="textbox" id="login_btn" onclick="return clickCheck()" type="submit" value="Login" style="background-color:#ff9800; color: white;">Login</input></div>
+			 <div class="text-center gap"><button class="textbox" id="forget_pass" type="submit" value="Forget Password" style="background-color:#ff9800; color: white;">Forgot Password</input></div>
+			 </fieldset>
+			 </form>
+			 
 			</div>
 		   </div>
 		  </div>
