@@ -55,3 +55,23 @@
 	  background-color:#81c784;
 	  color: black;
 	 }
+	.form-group input:hover, .form-group input:focus
+	{
+	 border-color: #029f5b;
+	}
+	.form-group input[type="submit"]
+	{
+	  background-color: #029f5b;
+	  color: white;
+	 margin: 0 auto;
+	}
+	.form-group input[type="submit"]:hover
+	{
+	  background-color: white;
+	  color: #029f5b;
+	 margin: 0 auto;
+	}
+	.form-group input
+	{
+	 border-color: #81c784;
+	}
