@@ -103,9 +103,9 @@ $(document).on("click", ".container_btn_click", function () {
         }
         for(var i=0;i<containerId.length;i++)
         {
-            var par = '<p>' + containerId[i] + '</p>';
+            var par = "<p name='" + containerId[i] + "'>" + containerId[i] + '</p>';
             div = div + par;
-            //alert(div);
+            alert(div);
         }
         div = div + '</div>';
         //alert(div);
