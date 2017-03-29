@@ -31,7 +31,7 @@
 					</div>-->
 					<div style='margin-top:20px'>
 						 <div>
-						 	  <form id="create_container" class="form-horizontal" style="display:block">
+						 	  <form id="create_container" class="form-horizontal" style="display:none">
   							  		<div class="form-group">
     									 <label class="control-label col-sm-2" for="image_name">Image Name:</label>
     									 <div class="col-sm-9">
@@ -101,6 +101,46 @@
 						 	<!-- <form method="post" action="http://www.google.com" role="form" style="display:block">
 							 	   <input id="image_name" type="text" name="image_name" value="" placeholder="Image Name">
 							 </form> -->
+						 </div>
+						 <div>
+						 	  <form id="container_list" style="display:block">
+							  		<table id="tbl_container" width=100% frame='box'>
+										   <tr id='con_list0'>
+               							   	    <th></th>
+												<th style="text-align:center">Container Name</th>
+												<th style="text-align:center">Status</th>
+												<th style="text-align:center">Created By</th>
+										   </tr>
+										   <tr id='con_list1' align='center'>
+							 			   	    <td><input type="checkbox" id="containercheckBox1" name="containercheckBox1"></td>
+							  					<td>Container1</td>
+												<td>Running</td>
+												<td>Jishnu</td>
+											</tr>
+											 <tr id='con_list2' align='center'>
+							 			   	    <td><input type="checkbox" id="containercheckBox2" name="containercheckBox2"></td>
+							  					<td>Container2</td>
+												<td>Running</td>
+												<td>Jishnu</td>
+											</tr>
+											 <tr id='con_list3' align='center'>
+							 			   	    <td><input type="checkbox" id="containercheckBox3" name="containercheckBox3"></td>
+							  					<td>Container3</td>
+												<td>Running</td>
+												<td>JJ</td>
+											</tr>
+											 <tr id='con_list4' align='center'>
+							 			   	    <td><input type="checkbox" id="containercheckBox4" name="containercheckBox4"></td>
+							  					<td>Container4</td>
+												<td>Running</td>
+												<td>James</td>
+											</tr>
+									</table>
+							  </form>
+						 </div>
+						 <div>
+						 	  <form id="stopped_list" style="display:none">
+							  </form>
 						 </div>
             <!--<table id='tbl_container' width=100% frame='box'>
               <tr>

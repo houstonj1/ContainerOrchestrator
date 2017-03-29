@@ -20,7 +20,7 @@ $(document).ready(function() {
   tbl = "<table>";
   tr = "<tr>";
   for(var j=0;j<containerSource.length;j++) {
-    var td = "<td style='padding:4px;'><input class='containerBtn containerBtns' type='button' value='" + containerSource[j].Display_Text + "'  /></td>" ;
+    var td = "<td style='padding:4px;'><input class='containerBtn containerBtns container_btn_click' type='button' value='" + containerSource[j].Display_Text + "'  /></td>" ;
     tr = tr + td;
     //alert(containerSource[j].Display_Text);
   }
@@ -62,3 +62,62 @@ $(document).on("click", ".menu_buttons", function() {
   var $span = $td.children("span");
   window.location.href = $span.text();
 })
+
+$(document).on("click", ".container_btn_click", function () { 
+    var btnVal = $(this).val();
+    var containerForm = $('#container_list').css('display');
+    if (btnVal == "Create")
+    {
+        var disProp = $("#create_container").css("display");
+        if (disProp == "none")
+        {
+            //alert("Entered");
+            disProp = "block";
+            //alert(disProp);
+            $("#create_container").css("display", disProp);
+            $("#container_list").css("display", "none");
+        }
+    }
+    else if(btnVal=="Stop")
+    {
+        var containerId = [];
+        var div = '<div>';
+        var tableRow = $('#tbl_container tr').length-1;
+        var checkedItem = 0;
+        //alert(tableRow);
+        for(var i=0;i<tableRow;i++)
+        {
+            var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
+            if ((i) < tableRow)
+            {
+                var checked = $('#containercheckBox' + (i + 1)).is(':checked');
+                if (checked == true)
+                {
+                    checkedItem = checkedItem +1;
+                    //alert(checked);
+                    containerId.push($('#con_list' + (i + 1)).find('td:eq(1)').html());
+                   
+                    //alert(containerId);
+                } 
+            }
+        }
+        for(var i=0;i<containerId.length;i++)
+        {
+            var par = '<p>' + containerId[i] + '</p>';
+            div = div + par;
+            //alert(div);
+        }
+        div = div + '</div>';
+        //alert(div);
+        if((containerForm == "block") && (checkedItem > 0))
+        {
+            //alert("Entered");
+            $('#stopped_list').html(div);
+            $('#container_list').css("display", "none");
+            $('#stopped_list').css("display", "block");
+        }
+
+    }
+})
+
+
