@@ -77,13 +77,28 @@ $(document).on("click", ".container_btn_click", function () {
             $("#create_container").css("display", disProp);
             $("#container_list").css("display", "none");
         }
+        else
+        {
+            $("#create_container").css("display", "none");
+            $("#container_list").css("display", "block");
+        }
     }
-    else if(btnVal=="Stop")
+    else if (btnVal == "Stop" || btnVal == "Start")
     {
+        if (btnVal == "Stop")
+        {
+            status = "Stopped";
+        }
+        else
+        {
+            status = "Running";
+        }
+
         var containerId = [];
         var div = '<div>';
         var tableRow = $('#tbl_container tr').length-1;
         var checkedItem = 0;
+        var temp = "";
         //alert(tableRow);
         for(var i=0;i<tableRow;i++)
         {
@@ -93,29 +108,39 @@ $(document).on("click", ".container_btn_click", function () {
                 var checked = $('#containercheckBox' + (i + 1)).is(':checked');
                 if (checked == true)
                 {
+                    var temp_status = $('#con_list' + (i + 1)).find('td:eq(3)').html()  //Gives the status
+                    if (temp_status == status)
+                    {
+                        alert("Container is already " + status);
+                    }
                     checkedItem = checkedItem +1;
                     //alert(checked);
-                    containerId.push($('#con_list' + (i + 1)).find('td:eq(1)').html());
-                   
+                    containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
+                    temp = $('#con_list' + (i + 1)).find('td:eq(2)').html()         //This gives the containerID Send AJAX call here
+                    //Get status back
+                    $('#con_list' + (i + 1)).find('td:eq(3)').html(status);
+                    $('#containercheckBox' + (i + 1)).val([]);
                     //alert(containerId);
                 } 
             }
         }
-        for(var i=0;i<containerId.length;i++)
+
+        /*for(var i=0;i<containerId.length;i++)
         {
             var par = "<p name='" + containerId[i] + "'>" + containerId[i] + '</p>';
             div = div + par;
-            alert(div);
+            //alert(div);
         }
         div = div + '</div>';
-        //alert(div);
-        if((containerForm == "block") && (checkedItem > 0))
+        //alert(div);*/
+
+        /*if((containerForm == "block") && (checkedItem > 0))
         {
             //alert("Entered");
             $('#stopped_list').html(div);
             $('#container_list').css("display", "none");
             $('#stopped_list').css("display", "block");
-        }
+        }*/
 
     }
 })

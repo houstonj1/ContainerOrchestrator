@@ -19,6 +19,7 @@ $(document).ready(function() {
   tbl = tbl +  tr + "</table>";
 
   $("#dvMenuBar").html(tbl);
+
 });
 
 $(document).on("mouseover",".menu_buttons",function() {
@@ -37,7 +38,7 @@ $(document).on("mouseover",".menu_buttons",function() {
     }
   }
   $("#menu_img_icon").parent().css({position:'relative'});
-  $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
+  $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
   //var img = "<img class='img_style' src='" + src + "' ></img>";
   var img = src
   $("#menu_img_icon").html(img);
@@ -57,4 +58,47 @@ $(document).on("click", ".menu_buttons", function() {
   var $td = $(this).parent("td");
   var $span = $td.children("span");
   window.location.href = $span.text();
+})
+$(document).on("click", ".image_buttons", function () {
+    var id = $(this).attr("id");
+    switch(id)
+    {
+        case "nginx_btn":
+            $("#img_path").val("nginx:latest");
+            break;
+        case "docker_btn":
+            $("#img_path").val("docker:latest");
+            break;
+        case "redis_btn":
+            $("#img_path").val("redis:latest");
+            break;
+        case "ubuntu_btn":
+            $("#img_path").val("ubuntu:latest");
+            break;
+        default:
+            break;
+    }
+})
+
+$(document).on("click", "#pull_img_btn", function (e) {
+    e.preventDefault();
+    var img_val = $("#img_path").val()
+    var numrow = $('#img_container tr').length;
+    //alert(img_val);
+    //alert(numrow);
+    if(img_val=="")
+    {
+        alert("Error:No image path");
+    }
+    else
+    {
+        //alert("Entered");
+        var tr = "<tr id=img_list'" + numrow + "' align='center'><td><input type='checkbox' id='imagecheckBox" + numrow + "' name='containercheckBox" + numrow + "'></td>";
+        //alert(tr);
+        var td = "<td>" + img_val + "</td>";
+        //alert(td);
+        tr = tr + td + "</tr>";
+        //alert(tr);
+    }
+    $("#img_container").append(tr);
 })
