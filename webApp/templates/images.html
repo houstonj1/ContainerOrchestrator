@@ -53,9 +53,10 @@
          <input id="pull_img_btn" type="submit" class="btn btn-default" value="submit">
        </form>
     </div>
-    <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b;margin-bottom:5%">
+    <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b;margin-bottom:2%">
     <div style="margin-bottom:10%">
          <form id="imageList">
+		 <div><input id='pull_rmv_btn' type='submit' class='btn btn-default' style='margin-bottom:2%' value='Remove'>
            <table id="img_container" width=100%>
               <tr id='con_list0'>
                 <th target="left"></th>
@@ -65,7 +66,7 @@
               </tr>
               {% for name,tag,size in imageList %}
               <tr id='con_list1' align='center'>
-                <td><input type="checkbox" id="containercheckBox1" name="containercheckBox1"></td>
+                <td><input type="checkbox" id="containercheckBox{{ loop.index }}" name="containercheckBox{{ loop.index }}"></td>
                 <td>{{ name }}</td>
                 <td>{{ tag }}</td>
                 <td>{{ size }}</td>

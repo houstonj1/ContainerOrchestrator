@@ -98,6 +98,27 @@ $(document).on("click", ".container_btn_click", function () {
             }
         }
         console.log(containerId);
+        var status_ContainerIds = btnVal + ',';
+        for (var i = 0; i < containerId.length; i++) {
+            if (i == containerId.length - 1) {
+                var container = containerId[i];
+            }
+            else {
+                var container = containerId[i] + ',';
+            }
+            var status_ContainerIds = status_ContainerIds.concat(container);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/containers',
+            data: { status_ContainerIds },                  //Sending the string as Status,ContainerID. Ex: "Stop,Container1,Container2". Use ',' to split the string in python.
+            success: function () {
+                alert("Containers " + btnVal);
+            },
+            error: function () {
+                alert("Containers didn't " + btnVal);
+            }
+        });
     }
 })
       /*var containerId = [];
