@@ -85,7 +85,6 @@ $(document).on("click", ".container_btn_click", function () {
         var tableRow = $('#tbl_container tr').length-1;
         for(var i=0;i<tableRow;i++)
         {
-          console.log("LOOP: " + i)
             var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
             if ((i) < tableRow)
             {
@@ -94,7 +93,7 @@ $(document).on("click", ".container_btn_click", function () {
                 if (checked == true)
                 {
                   console.log(($('#con_list' + (i + 1)).find('td:eq(2)').html()));
-                  //containerId += ($('#con_list' + (i + 1)).find('td:eq(2)').html());
+                  containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
                 }
             }
         }

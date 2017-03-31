@@ -88,15 +88,15 @@
             <form id="container_list" style="display:block">
                 <table id="tbl_container" width=100%>
                    <tr id='con_list0'>
-                                <th target="left"></th>
+                    <th target="left"></th>
                     <th style="text-align:center">Container Name</th>
                     <th style="text-align:center">Container ID</th>
                     <th style="text-align:center">Status</th>
                     <th style="text-align:center" target="right">Created By</th>
                    </tr>
                    {% for container in containers %}
-                   <tr id='con_list1' align='center'>
-                    <td><input type="checkbox" id="containercheckBox1" name="containercheckBox1"></td>
+                   <tr id='con_list{{ loop.index }}' align='center'>
+                    <td><input type="checkbox" id="containercheckBox{{ loop.index }}" name="containercheckBox{{ loop.index }}"></td>
                     <td><a href="/containers/{{ container.name }}">{{ container.name }}</a></td>
                     <td>{{ container.short_id }}</td>
                     <td>{{ container.status }}</td>

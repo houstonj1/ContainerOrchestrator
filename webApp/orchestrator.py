@@ -15,6 +15,10 @@ def dashboard():
     #<--- for now ---->
     #return render_template("index.html")
 
+@app.route('/login')
+def login():
+    return render_template('login.html', script="login.js", css="login.css")
+
 def list_images():
     images = [image.attrs for image in client.images.list()]
     imageList = []
@@ -55,7 +59,7 @@ def containers():
     if request.method == 'GET':
         return render_template('containers.html', title="Containers", script="container.js", css="Container.css", containers=containers)
     if request.method == 'POST':
-        containerList = request.json
+
         try:
             print containerList
             """for container in containerList:
