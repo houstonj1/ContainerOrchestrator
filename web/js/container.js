@@ -85,15 +85,6 @@ $(document).on("click", ".container_btn_click", function () {
     }
     else if (btnVal == "Stop" || btnVal == "Start")
     {
-        if (btnVal == "Stop")
-        {
-            status = "Stopped";
-        }
-        else
-        {
-            status = "Running";
-        }
-
         var containerId = [];
         var div = '<div>';
         var tableRow = $('#tbl_container tr').length-1;
@@ -108,22 +99,51 @@ $(document).on("click", ".container_btn_click", function () {
                 var checked = $('#containercheckBox' + (i + 1)).is(':checked');
                 if (checked == true)
                 {
-                    var temp_status = $('#con_list' + (i + 1)).find('td:eq(3)').html()  //Gives the status
-                    if (temp_status == status)
+                    //var temp_status = $('#con_list' + (i + 1)).find('td:eq(3)').html()  //Gives the status
+                    /*if (temp_status == status)
                     {
                         alert("Container is already " + status);
-                    }
-                    checkedItem = checkedItem +1;
+                    }*/
+                    //checkedItem = checkedItem +1;
                     //alert(checked);
                     containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
-                    temp = $('#con_list' + (i + 1)).find('td:eq(2)').html()         //This gives the containerID Send AJAX call here
+                    //temp = $('#con_list' + (i + 1)).find('td:eq(2)').html()         //This gives the containerID Send AJAX call here
                     //Get status back
-                    $('#con_list' + (i + 1)).find('td:eq(3)').html(status);
-                    $('#containercheckBox' + (i + 1)).val([]);
+                    //$('#con_list' + (i + 1)).find('td:eq(3)').html(status);
+                    //$('#containercheckBox' + (i + 1)).val([]);
                     //alert(containerId);
                 } 
             }
         }
+        //alert(containerId);
+        var status_ContainerIds = btnVal + ',';
+        //var status_ContainerIds = stopList.concat(containerId);
+        //alert(typeof(status_ContainerIds));
+        //alert(containerId.length);
+        for (var i = 0; i < containerId.length; i++)
+        {
+            if (i == containerId.length - 1)
+            {
+                var container = containerId[i];
+            }
+            else
+            {
+                var container = containerId[i] + ',';
+            }
+            var status_ContainerIds = status_ContainerIds.concat(container);
+        }
+        alert(status_ContainerIds);
+        $.ajax({                        
+            type: 'POST',
+            url: '/containers',
+            data: { status_ContainerIds },                  //Sending the string as Status,ContainerID. Ex: "Stop,Container1,Container2". Use ',' to split the string in python.
+            success: function(){
+                alert("Containers " + btnVal);
+            },
+            error: function(){
+                alert("Containers didn't " + btnVal);
+            }
+            });
 
         /*for(var i=0;i<containerId.length;i++)
         {
