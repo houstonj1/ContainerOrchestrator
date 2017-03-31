@@ -1,0 +1,91 @@
+
+	html, body
+	 {
+	  height:100%;
+	  width:100%;
+	  background-color:#81c784;
+	 }
+	
+	.topGap
+	{
+	 position: relative;
+	 top: 5%;
+	}
+	 .textbox
+	 {
+	  border-radius: 5px;
+	  height: 40px;
+	  width: 200px;
+	  padding: 5px;
+	  border-style: none;
+	  background-color: #029f5b;
+	  color: white;
+	 }
+	 .center_div
+	 {
+	  display:table;
+	  margin:0 auto;
+	 }
+	 .remove_padding
+	 {
+	  margin-left:-20px;
+ 	  margin-right:-20px;
+	 }
+	 #tbl_container td
+	 {
+	  padding:10px;
+	 }
+	 #tbl_container th
+	 {
+	  padding:10px;
+	  background-color:#81c784;
+	 }
+	 .containerBtn:hover
+	 {
+	  background-color: #029f5b;
+	  color: white;
+	 }
+	 .containerBtns
+	 {
+	  border-radius: 5px;
+	  height: 40px;
+	  width: 200px;
+	  padding: 5px;
+	  border-style: none;
+	  background-color:#81c784;
+	  color: black;
+	 }
+	.form-group input:hover, .form-group input:focus
+	{
+	 border-color: #029f5b;
+	}
+	.form-group input[type="submit"]
+	{
+	  background-color: #029f5b;
+	  color: white;
+	 margin: 0 auto;
+	}
+	.form-group input[type="submit"]:hover
+	{
+	  background-color: white;
+	  color: #029f5b;
+	 margin: 0 auto;
+	}
+	.form-group input
+	{
+	 border-color: #81c784;
+	}
+	#tbl_container th[target=right] 
+	{ 
+	 border-top-right-radius: 5px;
+    	 border-bottom-right-radius: 5px;
+	 -moz-border-radius-topright: 5px;
+    	 -moz-border-radius-bottomright: 5px;  
+	}
+	#tbl_container th[target=left]
+	{
+	 border-top-left-radius: 5px;
+    	 border-bottom-left-radius: 5px;
+	 -moz-border-radius-topleft: 5px;
+    	 -moz-border-radius-bottomleft: 5px;  
+	}

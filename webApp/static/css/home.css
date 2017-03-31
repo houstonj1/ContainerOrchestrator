@@ -1,0 +1,39 @@
+html, body
+ {
+  height:100%;
+  width:100%;
+ }
+
+.topGap
+{
+ position: relative;
+ top: 10%;
+}
+ .textbox
+ {
+  border-radius: 5px;
+  height: 40px;
+  width: 200px;
+  padding: 5px;
+  border-style: none;
+  background-color: #ff9800;
+ }
+ .center_div
+ {
+  display:table;
+  margin:0 auto;
+ }
+ .remove_padding
+ {
+  margin-left:-20px;
+  margin-right:-20px;
+ }
+  #tbl_system td
+ {
+  padding:10px;
+ }
+ #tbl_system th
+ {
+  padding:10px;
+  background-color:#ffcc80;
+ }
