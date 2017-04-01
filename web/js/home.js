@@ -35,7 +35,7 @@ $(document).on("mouseover",".menu_buttons",function() {
     }
   }
   $("#menu_img_icon").parent().css({position:'relative'});
-  $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
+  $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
   //var img = "<img class='img_style' src='" + src + "' ></img>";
   var img = src
   $("#menu_img_icon").html(img);

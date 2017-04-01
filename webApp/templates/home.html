@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Home</title>
-    <script src="js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="js/home.js?version=1.1.0.1"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/home.css">
-    <script src="js/bootstrap.min.js"></script>
-    <meta name="viewpoint" width="device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
     <div>
       <img src="img/logo.png" style="margin-top:5px;margin-left:5px;">
 	</div>
@@ -40,5 +28,6 @@
 		<div class="col-md-2"></div>
 	</div>
    </div>
-  </body>
+   </body>
 </html>
+{% endblock %}

@@ -66,6 +66,7 @@ $(document).on("click", ".menu_buttons", function() {
 $(document).on("click", ".container_btn_click", function () {
     var btnVal = $(this).val();
     var containerForm = $('#container_list').css('display');
+    var containerId = [];
     if (btnVal == "Create") {
       var disProp = $("#create_container").css("display");
       if (disProp == "none") {
@@ -81,7 +82,6 @@ $(document).on("click", ".container_btn_click", function () {
       }
     }
     else if (btnVal == "Stop" || btnVal == "Start") {
-      var containerId = [];
         var tableRow = $('#tbl_container tr').length-1;
         for(var i=0;i<tableRow;i++)
         {
@@ -119,6 +119,59 @@ $(document).on("click", ".container_btn_click", function () {
                 alert("Containers didn't " + btnVal);
             }
         });
+    }
+
+    else {
+        if (btnVal == 'Remove') {
+            var containerCreator = [];
+            var tableRow = $('#tbl_container tr').length - 1;
+            for (var i = 0; i < tableRow; i++) {
+                var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
+                if ((i) < tableRow) {
+                    var checked = $('#containercheckBox' + (i + 1)).is(':checked');
+                    if (checked == true) {
+                        containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
+                        containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
+                    }
+                }
+            }
+            var status_ContainerIds = btnVal + ',';
+            for (var i = 0; i < containerId.length; i++) {
+                if (i == containerId.length - 1) {
+                    var container = containerId[i];
+                }
+                else {
+                    var container = containerId[i] + ',';
+                }
+                var status_ContainerIds = status_ContainerIds.concat(container);
+                var status_remove = status_remove.concat(container);
+            }
+            $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+            {
+                type: 'GET',
+                url: '/temp', //Need for url for the php script
+                data: { status_remove },
+                datatype: 'text/plain',
+                success: function (data) {
+                    if (data == success) {
+                        $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                            type: 'POST',
+                            url: '/container',
+                            data: { 'data': status_ContainerIds },
+                            success: function () {
+                                alert('ContainerRemoved');
+                            },
+                            error: function () {
+                                alert("Container Not Removed 1");
+                            }
+                        });
+                    }
+                },
+                error: function () {
+                    alert("Container not removed 2")
+                }
+            });
+        }
     }
 })
       /*var containerId = [];
