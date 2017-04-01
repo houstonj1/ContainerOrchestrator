@@ -80,6 +80,72 @@ $(document).on("click", ".container_btn_click", function () {
         $("#create_container").css("display", "none");
         $("#container_list").css("display", "block");
       }
+      var createConForm = [];
+      var containerName = '';
+      $(document).on('click', '#create_con', function (e) {
+          //alert('enter');
+          e.preventDefault();
+          createConForm.push($('#container_name').val());
+          containerName = $('#container_name').val()
+          createConForm.push($('#image_name').val());
+          createConForm.push($('#command').val());
+          if ($('#detach').is(':checked')) {
+              createConForm.push('True');
+          }
+          else {
+              createConForm.push('False');
+          }
+          createConForm.push($('#hostname').val());
+          if ($('#network_dis').is(':checked')) {
+              createConForm.push('True');
+          }
+          else {
+              createConForm.push('False');
+          }
+          createConForm.push($('#network_mode').val());
+          createConForm.push($('#mac').val());
+          createConForm.push($('#ports').val());
+          if ($('#publish_ports').is(':checked')) {
+              createConForm.push('True');
+          }
+          else {
+              createConForm.push('False');
+          }
+          //alert(createConForm);
+          //alert('hi');
+          //alert(createConForm.length);
+
+          var sentForm = '';
+          for (var j = 0; j < createConForm.length; j++) {
+              if (j == createConForm.length - 1) {
+                  var temp = createConForm[j];
+              }
+              else {
+                  var temp = createConForm[j] + ',';
+              }
+              sentForm = sentForm.concat(temp);
+          }
+          //alert(sentForm);
+          //alert('success');
+
+          $.ajax({                //This ajax call is to the python script that sends the data of create form
+              type: 'POST',
+              url: '/container',
+              data: { 'data': sentForm },
+              success: function () {
+                  $("#create_container").css("display", "none");
+                  $("#container_list").css("display", "block");
+                  //this is where you add the returned table from the python script to the container list. Do the '.html' that you did for start/stop
+                  $.ajax({        //This ajax call is for the database to create an instance of the container name
+                      type: 'POST',
+                      url: '/php url',    //Put the PHP url here
+                      data: { 'data': containerName },
+                      success: function () { }
+                  });
+              },
+              error: function () { }    //error from the python script
+          });
+      });
     }
     else if (btnVal == "Stop" || btnVal == "Start") {
         var tableRow = $('#tbl_container tr').length-1;
