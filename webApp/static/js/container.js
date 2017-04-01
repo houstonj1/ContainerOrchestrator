@@ -132,8 +132,15 @@ $(document).on("click", ".container_btn_click", function () {
                     if (checked == true) {
                         containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
                         containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
+                        var status = ($('#con_list' + (i + 1)).find('td:eq(3)').html());
+                        if (status == "Running") {
+                            var running = status;
+                        }
                     }
                 }
+            }
+            if (running == 'Running') {
+                alert("Container is Running. Needs to be stopped before removing.");
             }
             var status_ContainerIds = btnVal + ',';
             for (var i = 0; i < containerId.length; i++) {
@@ -146,6 +153,7 @@ $(document).on("click", ".container_btn_click", function () {
                 var status_ContainerIds = status_ContainerIds.concat(container);
                 var status_remove = status_remove.concat(container);
             }
+
             $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
             {
                 type: 'GET',
