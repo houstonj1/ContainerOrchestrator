@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/index",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Container","URL":"http://localhost/containers"}];
 var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
+=======
+var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Containers","URL":"http://localhost/containers"}];
+var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Containers","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
+>>>>>>> f345293fe086097af2a71ed904a014e858b23d21
 var containerSource =[{"Display_Text":"Create"},{"Display_Text":"Start"},{"Display_Text":"Stop"},{"Display_Text":"Remove"}];
 $(document).ready(function() {
   var tbl = "<table>";
@@ -135,6 +140,7 @@ $(document).on("click", ".container_btn_click", function () {
               success: function () {
                   $("#create_container").css("display", "none");
                   $("#container_list").css("display", "block");
+<<<<<<< HEAD
                   //this is where you add the returned table from the python script to the container list. Do the '.html' that you did for start/stop
                   $.ajax({        //This ajax call is for the database to create an instance of the container name
                       type: 'POST',
@@ -142,6 +148,9 @@ $(document).on("click", ".container_btn_click", function () {
                       data: { 'data': containerName },
                       success: function () { }
                   });
+=======
+                  $("#tbl_container").html(response);
+>>>>>>> f345293fe086097af2a71ed904a014e858b23d21
               },
               error: function () { }    //error from the python script
           });

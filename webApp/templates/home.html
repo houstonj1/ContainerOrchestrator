@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <div>
-      <img src="img/logo.png" style="margin-top:5px;margin-left:5px;">
+      <img src="/static/img/logo.png" style="margin-top:5px;margin-left:5px;">
 	</div>
     <div class="container-fluid topGap">
       <div class="row">
@@ -17,15 +17,15 @@
 			   		 <table id='home_container' style='margin-top:3%; float:right'>
 							<caption style="text-align:center">SYSTEM INFORMATION</caption>
 							<tr><th></th><th></th></tr>
-							<tr style="text-align:center"><td>Docker Version</td><td>{{docker version}}</td></tr>
-							<tr style="text-align:center"><td>CPU</td><td>{{docker version}}</td></tr>
-							<tr style="text-align:center"><td>Memory</td><td>{{docker version}}</td></tr>
-							<tr style="text-align:center"><td>HDD</td><td>{{docker version}}</td></tr>
+							<tr style="text-align:center"><td>Docker Version</td><td><!--{{version}}--></td></tr>
+							<tr style="text-align:center"><td>CPU</td><td><!--{{cpu}}--></td></tr>
+							<tr style="text-align:center"><td>Memory</td><td><!--{{memory}}--></td></tr>
+							<tr style="text-align:center"><td>HDD</td><td><!--{{hdd}}--></td></tr>
 					 </table>
 			   </form>
 		  </div>
 		</div>
 		<div class="col-md-2"></div>
 	</div>
-   </div>
+</div>
 {% endblock %}
