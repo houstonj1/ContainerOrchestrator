@@ -248,7 +248,7 @@ $(document).on("click", ".container_btn_click", function () {
             for (var i = 0; i < containerId.length; i++) {
                 if (i == containerId.length - 1) {
                     var temp = containerId[i];
-                    var temp2 = containerCreator[i];
+                    var temp2 = containerCreator[i]+',';
                 }
                 else {
                     var temp = containerId[i] + ',';
@@ -256,6 +256,7 @@ $(document).on("click", ".container_btn_click", function () {
                 }
                 status_containerIdString = status_containerIdString.concat(temp);
                 containerCreatorString = containerCreatorString.concat(temp2);
+				containerCreatorString = containerCreatorString.concat(temp);
                 //alert(status_containerIdString);
                 //alert(containerCreatorString);
             }   //until here
@@ -266,27 +267,30 @@ $(document).on("click", ".container_btn_click", function () {
             else {          //Added this else
                 $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
                 {
-                type: 'GET',
+                type: 'POST',
                 url: '/removeContainer.php', //Need for url for the php script
                 data: {'data': containerCreatorString},
-                datatype: 'text/plain',
+                datatype: 'text',
                 success: function (data) {
-                    if (data == success) {      //this will equal to whatever is returned by data.
+                    if (data == 'success') {      //this will equal to whatever is returned by data.
                         $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
                             type: 'POST',
-                            url: '/container',
+                            url: '/containers',
                             data: { 'data': status_containerIdString},
                             success: function () {
                                 alert('ContainerRemoved');
                             },
                             error: function () {
-                                alert("Container Not Removed 1");
+                                alert("Container Not Removed");
                             }
                         });
                     }
+					else{
+						alert("Container 'Created By different user'");
+					}
                 },
                 error: function () {
-                    alert("Container not removed 2")
+                    alert("Container not removed")
                 }
             });
             }
