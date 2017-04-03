@@ -205,80 +205,101 @@ $(document).on("click", ".container_btn_click", function () {
                     }
                 }
             }
+            //New logic added here
+            var containerCreatorString = '';
+            var status_containerIdString = btnVal + ',';
+            for (var i = 0; i < containerId.length; i++) {
+                if (i == containerId.length - 1) {
+                    var temp = containerId[i];
+                    var temp2 = containerCreator[i];
+                }
+                else {
+                    var temp = containerId[i] + ',';
+                    var temp2 = containerCreator[i] + ',';
+                }
+                status_containerIdString = status_containerIdString.concat(temp);
+                containerCreatorString = containerCreatorString.concat(temp2);
+                //alert(status_containerIdString);
+                //alert(containerCreatorString);
+            }
             if (running == 'Running') {
                 alert("Container is Running. Needs to be stopped before removing.");
             }
-            var status_ContainerIds = btnVal + ',';
-            for (var i = 0; i < containerId.length; i++) {
-                if (i == containerId.length - 1) {
-                    var container = containerId[i];
-                }
-                else {
-                    var container = containerId[i] + ',';
-                }
-                var status_ContainerIds = status_ContainerIds.concat(container);
-                var status_remove = status_remove.concat(container);
-            }
-
-            $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
-            {
-                type: 'GET',
-                url: '/temp', //Need for url for the php script
-                data: { status_remove },
-                datatype: 'text/plain',
-                success: function (data) {
-                    if (data == success) {
-                        $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
-                            type: 'POST',
-                            url: '/container',
-                            data: { 'data': status_ContainerIds },
-                            success: function () {
-                                alert('ContainerRemoved');
-                            },
-                            error: function () {
-                                alert("Container Not Removed 1");
-                            }
-                        });
+            else {          //Added this else
+                $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+                {
+                    type: 'GET',
+                    url: '/removeContainer.php', //Need for url for the php script
+                    data: { 'data': containerCreatorString },
+                    datatype: 'text/plain',
+                    success: function (data) {
+                        if (data == success) {      //this will equal to whatever is returned by data.
+                            $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                                type: 'POST',
+                                url: '/container',
+                                data: { 'data': status_containerIdString },
+                                success: function () {
+                                    alert('ContainerRemoved');
+                                },
+                                error: function () {
+                                    alert("Container Not Removed 1");
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert("Container not removed 2")
                     }
-                },
-                error: function () {
-                    alert("Container not removed 2")
-                }
-            });
+                });
+            }   //end of new logic
         }
     }
 })
-      /*var containerId = [];
-      var div = '<div>';
-      var tableRow = $('#tbl_container tr').length;
-      console.log(tableRow);
-      //alert(tableRow);
-      var checkedItem = 0;
-      var temp = "";
-      //alert(tableRow);
-      for(var i=0;i < tableRow;i++) {
-        console.log("looping");
-        var containerrow = $('#tbl_container').find("tr").eq(i).html();
-        var checked = $('#containercheckBox' + (i)).is(':checked');
-        if (checked == true) {
-          var temp_status = $('#con_list' + (i)).find('td:eq(3)').html()  //Gives the status
-          if (temp_status == status) {
-            alert("Container is already " + status);
-          }
-          checkedItem = checkedItem +1;
-          //alert(checked);
-          var testing = $('#con_list' + (i)).find('td:eq(2)').html()
-          console.log(testing);
-          console.log(containerId);
-          containerId.push(testing);
-          console.log(containerId);
-          //temp = $('#con_list' + (i + 1)).find('td:eq(2)').html()         //This gives the containerID Send AJAX call here
-          //Get status back
-          //$('#con_list' + (i + 1)).find('td:eq(3)').html(status);
-          $('#containercheckBox' + (i + 1)).val([]);
-          //alert(containerId);
-        }
-      }
-      //console.log(containerId);
+
+
+
+
+
+
+
+
+/*if (running == 'Running') {
+    alert("Container is Running. Needs to be stopped before removing.");
+}
+var status_ContainerIds = btnVal + ',';
+for (var i = 0; i < containerId.length; i++) {
+    if (i == containerId.length - 1) {
+        var container = containerId[i];
     }
-})*/
+    else {
+        var container = containerId[i] + ',';
+    }
+    var status_ContainerIds = status_ContainerIds.concat(container);
+    var status_remove = status_remove.concat(container);
+}
+
+$.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+{
+    type: 'GET',
+    url: '/temp', //Need for url for the php script
+    data: { status_remove },
+    datatype: 'text/plain',
+    success: function (data) {
+        if (data == success) {
+            $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                type: 'POST',
+                url: '/container',
+                data: { 'data': status_ContainerIds },
+                success: function () {
+                    alert('ContainerRemoved');
+                },
+                error: function () {
+                    alert("Container Not Removed 1");
+                }
+            });
+        }
+    },
+    error: function () {
+        alert("Container not removed 2")
+    }
+});*/
