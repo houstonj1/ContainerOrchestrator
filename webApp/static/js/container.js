@@ -136,15 +136,6 @@ $(document).on("click", ".container_btn_click", function () {
                   $("#create_container").css("display", "none");
                   $("#container_list").css("display", "block");
                   $("#tbl_container").html(response);
-                  // Commented out for now -- testing
-                  /*
-                  $.ajax({        //This ajax call is for the database to create an instance of the container name
-                      type: 'POST',
-                      url: '/php url',    //Put the PHP url here
-                      data: { 'data': containerName },
-                      success: function () { }
-                  });
-                  */
               },
               error: function () { }    //error from the python script
           });
