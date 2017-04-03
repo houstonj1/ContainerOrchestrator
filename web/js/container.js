@@ -132,7 +132,7 @@ $(document).on("click", ".container_btn_click", function () {
                 }
                 sentForm = sentForm.concat(temp);
             }
-            //alert(sentForm);
+            alert(sentForm);
             //alert('success');
 
             $.ajax({                //This ajax call is to the python script that sends the data of create form
@@ -242,13 +242,57 @@ $(document).on("click", ".container_btn_click", function () {
                     } 
                 }
             }
+            //Added new part starting here
+            var containerCreatorString = '';
+            var status_containerIdString = btnVal + ',';
+            for (var i = 0; i < containerId.length; i++) {
+                if (i == containerId.length - 1) {
+                    var temp = containerId[i];
+                    var temp2 = containerCreator[i];
+                }
+                else {
+                    var temp = containerId[i] + ',';
+                    var temp2 = containerCreator[i] + ',';
+                }
+                status_containerIdString = status_containerIdString.concat(temp);
+                containerCreatorString = containerCreatorString.concat(temp2);
+                //alert(status_containerIdString);
+                //alert(containerCreatorString);
+            }   //until here
             if (running == 'Running')
             {
                 alert("Container is Running. Needs to be stopped before removing.");
             }
-            //alert(containerId);
+            else {          //Added this else
+                $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+                {
+                type: 'GET',
+                url: '/removeContainer.php', //Need for url for the php script
+                data: {'data': containerCreatorString},
+                datatype: 'text/plain',
+                success: function (data) {
+                    if (data == success) {      //this will equal to whatever is returned by data.
+                        $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                            type: 'POST',
+                            url: '/container',
+                            data: { 'data': status_containerIdString},
+                            success: function () {
+                                alert('ContainerRemoved');
+                            },
+                            error: function () {
+                                alert("Container Not Removed 1");
+                            }
+                        });
+                    }
+                },
+                error: function () {
+                    alert("Container not removed 2")
+                }
+            });
+            }
+            //alert(containerId);           
             //alert(containerCreator);
-            var status_ContainerIds = btnVal + ',';
+            /*var status_ContainerIds = btnVal + ',';
             for (var i = 0; i < containerId.length; i++) {
                 if (i == containerId.length - 1) {
                     var container = containerId[i];
@@ -258,10 +302,10 @@ $(document).on("click", ".container_btn_click", function () {
                 }
                 var status_ContainerIds = status_ContainerIds.concat(container);
                 var status_remove = status_remove.concat(container);
-            }
+            }*/
             //alert(status_ContainerIds);
             //alert(status_remove);
-            $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+            /*$.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
             {
                 type: 'GET',
                 url: '/temp', //Need for url for the php script
@@ -285,7 +329,7 @@ $(document).on("click", ".container_btn_click", function () {
                 error: function () {
                     alert("Container not removed 2")
                 }
-            });
+            });*/                   //hide everything until here
         }
     }
 })
