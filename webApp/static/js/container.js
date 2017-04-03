@@ -1,4 +1,4 @@
-var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Container","URL":"http://localhost/containers"}];
+var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/index",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Container","URL":"http://localhost/containers"}];
 var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
 var containerSource =[{"Display_Text":"Create"},{"Display_Text":"Start"},{"Display_Text":"Stop"},{"Display_Text":"Remove"}];
 $(document).ready(function() {
@@ -84,7 +84,7 @@ $(document).on("click", ".container_btn_click", function () {
       var containerName = '';
       $(document).on('click', '#create_con', function (e) {
           //alert('enter');
-          //e.preventDefault();
+          e.preventDefault();
           createConForm.push($('#container_name').val());
           containerName = $('#container_name').val()
           createConForm.push($('#image_name').val());
@@ -127,24 +127,21 @@ $(document).on("click", ".container_btn_click", function () {
           }
           //alert(sentForm);
           //alert('success');
-          console.log(sentForm);
+
           $.ajax({                //This ajax call is to the python script that sends the data of create form
               type: 'POST',
-              url: '/containers/create',
+              url: '/container',
               data: { 'data': sentForm },
-              success: function(response) {
+              success: function () {
                   $("#create_container").css("display", "none");
                   $("#container_list").css("display", "block");
-                  $("#tbl_container").html(response);
-                  // Commented out for now -- testing
-                  /*
+                  //this is where you add the returned table from the python script to the container list. Do the '.html' that you did for start/stop
                   $.ajax({        //This ajax call is for the database to create an instance of the container name
                       type: 'POST',
                       url: '/php url',    //Put the PHP url here
                       data: { 'data': containerName },
                       success: function () { }
                   });
-                  */
               },
               error: function () { }    //error from the python script
           });
@@ -158,12 +155,15 @@ $(document).on("click", ".container_btn_click", function () {
             if ((i) < tableRow)
             {
                 var checked = $('#containercheckBox' + (i + 1)).is(':checked');
+                console.log(checked);
                 if (checked == true)
                 {
+                  console.log(($('#con_list' + (i + 1)).find('td:eq(2)').html()));
                   containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
                 }
             }
         }
+        console.log(containerId);
         var status_ContainerIds = btnVal + ',';
         for (var i = 0; i < containerId.length; i++) {
             if (i == containerId.length - 1) {
@@ -177,82 +177,133 @@ $(document).on("click", ".container_btn_click", function () {
         $.ajax({
             type: 'POST',
             url: '/containers',
-            data: { 'data':status_ContainerIds },                 //Sending the string as Status,ContainerID. Ex: "Stop,Container1,Container2". Use ',' to split the string in python.
-            dataType: 'html',
-            success: function(response) {
-                $("#tbl_container").html(response);
+            data: { status_ContainerIds },                  //Sending the string as Status,ContainerID. Ex: "Stop,Container1,Container2". Use ',' to split the string in python.
+            success: function () {
+                alert("Containers " + btnVal);
             },
-            error: function(response) {
-                //placeholder
+            error: function () {
+                alert("Containers didn't " + btnVal);
             }
         });
-      }
-      else {
-          if (btnVal == 'Remove') {
-              var containerCreator = [];
-              var tableRow = $('#tbl_container tr').length - 1;
-              for (var i = 0; i < tableRow; i++) {
-                  var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
-                  if ((i) < tableRow) {
-                      var checked = $('#containercheckBox' + (i + 1)).is(':checked');
-                      if (checked == true) {
-                          containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
-                          containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
-                          var status = ($('#con_list' + (i + 1)).find('td:eq(3)').html());
-                          if (status == "running") {
-                              var running = status;
-                          }
-                      }
-                  }
-              }
-              console.log("HERE")
-              console.log(running)
-              var containerCreatorString = '';
-              var status_containerIdString = btnVal + ',';
-              for (var i = 0; i < containerId.length; i++) {
-                  if (i == containerId.length - 1) {
-                      var temp = containerId[i];
-                      var temp2 = containerCreator[i];
-                  }
-                  else {
-                      var temp = containerId[i] + ',';
-                      var temp2 = containerCreator[i] + ',';
-                  }
-                  status_containerIdString = status_containerIdString.concat(temp);
-                  containerCreatorString = containerCreatorString.concat(temp2);
-                  //alert(status_containerIdString);
-                  //alert(containerCreatorString);
-              }
-              if (running == 'running') {
-                  alert("Container is Running. Needs to be stopped before removing.");
-              }
-              else {          //Added this else
-                  $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
-                  {
-                      type: 'GET',
-                      url: 'http://localhost/static/php/removeContainer.php', //Need for url for the php script
-                      data: { 'data': containerCreatorString },
-                      datatype: 'text/plain',
-                      success: function (data) {
-                          if (data == success) {      //this will equal to whatever is returned by data.
-                              $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
-                                  type: 'POST',
-                                  url: '/containers',
-                                  data: { 'data': status_containerIdString },
-                                  success: function (response) {
-                                      alert('Container successfully removed');
-                                  },
-                                  error: function () {
-                                      alert("Container Not Removed");
-                                  }
-                              });
-                          }
-                      },
-                      error: function () {
-                          alert("Container not removed 2")
-                      }
-                  });
-              }   //end of new logic
-          }
-      }
+    }
+
+    else {
+        if (btnVal == 'Remove') {
+            var containerCreator = [];
+            var tableRow = $('#tbl_container tr').length - 1;
+            for (var i = 0; i < tableRow; i++) {
+                var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
+                if ((i) < tableRow) {
+                    var checked = $('#containercheckBox' + (i + 1)).is(':checked');
+                    if (checked == true) {
+                        containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
+                        containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
+                        var status = ($('#con_list' + (i + 1)).find('td:eq(3)').html());
+                        if (status == "Running") {
+                            var running = status;
+                        }
+                    }
+                }
+            }
+            //New logic added here
+            var containerCreatorString = '';
+            var status_containerIdString = btnVal + ',';
+            for (var i = 0; i < containerId.length; i++) {
+                if (i == containerId.length - 1) {
+                    var temp = containerId[i];
+                    var temp2 = containerCreator[i]+',';
+                }
+                else {
+                    var temp = containerId[i] + ',';
+                    var temp2 = containerCreator[i] + ',';
+                }
+                status_containerIdString = status_containerIdString.concat(temp);
+                containerCreatorString = containerCreatorString.concat(temp2);
+				containerCreatorString = containerCreatorString.concat(temp);
+                //alert(status_containerIdString);
+                //alert(containerCreatorString);
+            }
+            if (running == 'Running') {
+                alert("Container is Running. Needs to be stopped before removing.");
+            }
+            else {          //Added this else
+                $.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+                {
+                    type: 'POST',
+                    url: '/removeContainer.php', //Need for url for the php script
+                    data: { 'data': containerCreatorString },
+                    datatype: 'text/plain',
+                    success: function (data) {
+                        if (data == success) {      //this will equal to whatever is returned by data.
+                            $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                                type: 'POST',
+                                url: '/containers',
+                                data: { 'data': status_containerIdString },
+                                success: function () {
+                                    alert('ContainerRemoved');
+                                },
+                                error: function () {
+                                    alert("Container Not Removed 1");
+                                }
+                            });
+                        }
+						else{
+						alert("Container 'Created By different user'");
+						}
+                    },
+                    error: function () {
+                        alert("Container not removed 2")
+                    }
+                });
+            }   //end of new logic
+        }
+    }
 })
+
+
+
+
+
+
+
+
+/*if (running == 'Running') {
+    alert("Container is Running. Needs to be stopped before removing.");
+}
+var status_ContainerIds = btnVal + ',';
+for (var i = 0; i < containerId.length; i++) {
+    if (i == containerId.length - 1) {
+        var container = containerId[i];
+    }
+    else {
+        var container = containerId[i] + ',';
+    }
+    var status_ContainerIds = status_ContainerIds.concat(container);
+    var status_remove = status_remove.concat(container);
+}
+
+$.ajax(         //Ajax call to the database to check if the person who clicked remove is the one that created the container.
+{
+    type: 'GET',
+    url: '/temp', //Need for url for the php script
+    data: { status_remove },
+    datatype: 'text/plain',
+    success: function (data) {
+        if (data == success) {
+            $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
+                type: 'POST',
+                url: '/container',
+                data: { 'data': status_ContainerIds },
+                success: function () {
+                    alert('ContainerRemoved');
+                },
+                error: function () {
+                    alert("Container Not Removed 1");
+                }
+            });
+        }
+    },
+    error: function () {
+        alert("Container not removed 2")
+    }
+});*/
