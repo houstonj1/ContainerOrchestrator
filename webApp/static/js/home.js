@@ -1,4 +1,4 @@
-var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/index",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Container","URL":"http://localhost/containers"}];
+var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Container","URL":"http://localhost/containers"}];
 var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Container","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
 $(document).ready(function() {
   var tbl = "<table>";
@@ -35,7 +35,7 @@ $(document).on("mouseover",".menu_buttons",function() {
     }
   }
   $("#menu_img_icon").parent().css({position:'relative'});
-  $("#menu_img_icon").css({top: (btn_offset.top)- (1.7*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
+  $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
   //var img = "<img class='img_style' src='" + src + "' ></img>";
   var img = src
   $("#menu_img_icon").html(img);
