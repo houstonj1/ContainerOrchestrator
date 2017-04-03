@@ -17,8 +17,10 @@
 	$username = $_SESSION["username"]; 
 	$id = $_SESSION["userid"];
 	$image = $_POST["image_name"];
+	$container = $_POST["container_name"];
 	
-	$sql = "INSERT INTO container(imageName,createdBy) VALUES ('$image','$id')";
+	
+	$sql = "INSERT INTO container(containerID,imageName,createdBy) VALUES ('$container','$image','$id')";
 	
 	//send query to database and get result
 		if($conn->query($sql) == TRUE)
