@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-      <img src="/static/img/logo.png" style="margin-top:5px;margin-left:5px;">
-	</div>
-    <div class="container-fluid topGap">
-      <div class="row">
-        <div id="menu_img_icon"></div>
-        <div class="col-md-2"></div>
-        <div class="col-md-8" style="background-color:white; height=100%;border-radius:5px;">
-          <div class='remove_padding' style="background-color:#029f5b; border-radius:5px;">
-            <div id='dvMenuBar' class='center_div'></div>
-		  </div>
-		  <div id="chart-container" style='margin-top:3%; float:left'>FusionCharts will render here</div>
-		  <div>
-		  	   <form>
-			   		 <table id='home_container' style='margin-top:3%; float:right'>
-							<caption style="text-align:center">SYSTEM INFORMATION</caption>
-							<tr><th></th><th></th></tr>
-							<tr style="text-align:center"><td>Docker Version</td><td><!--{{version}}--></td></tr>
-							<tr style="text-align:center"><td>CPU</td><td><!--{{cpu}}--></td></tr>
-							<tr style="text-align:center"><td>Memory</td><td><!--{{memory}}--></td></tr>
-							<tr style="text-align:center"><td>HDD</td><td><!--{{hdd}}--></td></tr>
+<div>
+  <img src="/static/img/logo.png" style="margin-top:5px;margin-left:5px;">
+</div>
+<div class="container-fluid topGap">
+  <div class="row">
+    <div id="menu_img_icon"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="background-color: #f5f4f3; height=100%;border-radius:5px;">
+      <div class='remove_padding' style="background-color:#029f5b; border-radius:5px; box-shadow: 2px 2px 2px #888888;">
+        <div id='dvMenuBar' class='center_div'></div>
+      </div>
+      <div id="chart-container" style='margin-top:3%; float:left; margin-bottom:5%;'>FusionCharts will render here</div>
+      <div>
+        <form>
+          <table id='home_container' style='margin-top:10%; float:right; margin-right:3%'>
+            <caption style="text-align:center; color:black;"><strong>SYSTEM INFORMATION</strong></caption>
+            <tr><th></th><th></th></tr>
+            <tr style="text-align:center"><td>Docker Version</td><td>{{ version }}</td></tr>
+							<tr style="text-align:center"><td>CPUs</td><td>{{ cpus }}</td></tr>
+							<tr style="text-align:center"><td>Memory</td><td>{{ memU }} / {{ memT }}</td></tr>
+							<tr style="text-align:center"><td>HDD</td><td>{{ diskU }} / {{ diskT }}</td></tr>
 					 </table>
 			   </form>
 		  </div>

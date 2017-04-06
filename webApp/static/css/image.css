@@ -4,13 +4,40 @@ html, body
   width:100%;
   background-color:#81c784;
  }
+ .alert {
+    padding: 10px;
+    background-color: #FF7D7D;
+    color: dark-gray;
+    font-size: 14px;
+    border-style: solid;
+    border-color:gray gray gray gray;
+}
+.alert:hover {
+  border-width: 3px;
+  font-size: 15px;
+  border-color: dark-gray dark-gray dark-gray dark-gray;
+
+}
+.closebtn {
+    margin-left: 15px;
+    color: dark-gray;
+    font-weight: bold;
+    float: right;
+    font-size: 32px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    color: gray;
+}
 .topGap
 {
   position: relative;
   top: 5%;
 }
 
-.textbox	
+.textbox
 {
  border-radius: 5px;
  height: 40px;
@@ -75,31 +102,31 @@ html, body
 {
  padding:10px;
 }
-#img_container th[target=right] 
-{ 
+#img_container th[target=right]
+{
  border-top-right-radius: 5px;
  border-bottom-right-radius: 5px;
  -moz-border-radius-topright: 5px;
- -moz-border-radius-bottomright: 5px;  
+ -moz-border-radius-bottomright: 5px;
 }
 #img_container th[target=left]
 {
  border-top-left-radius: 5px;
  border-bottom-left-radius: 5px;
  -moz-border-radius-topleft: 5px;
- -moz-border-radius-bottomleft: 5px;  
+ -moz-border-radius-bottomleft: 5px;
 }
 #img_container th
 {
  padding:10px;
  background-color:#81c784;
 }
-#pull_rmv_btn
+#rmv_img_btn
 {
  background-color:#81c784;
  color: black;
 }
-#pull_rmv_btn:hover
+#rmv_img_btn:hover
 {
  background-color: #029f5b;
  color: white;

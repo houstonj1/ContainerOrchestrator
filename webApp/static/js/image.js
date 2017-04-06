@@ -1,5 +1,5 @@
-var arrButtons = [{"Display_Text":"Home","URL":"http://localhost/",},{"Display_Text":"Image","URL":"http://localhost/images"},{"Display_Text":"Containers","URL":"http://localhost/containers"}];
-var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Image","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Containers","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
+var arrButtons = [{"Display_Text":"Home","URL":"/",},{"Display_Text":"Images","URL":"/images"},{"Display_Text":"Containers","URL":"/containers"}];
+var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Images","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Containers","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
 $(document).ready(function() {
   var tbl = "<table>";
   var tr = "<tr>";
@@ -51,9 +51,7 @@ $(document).on("mouseleave",".menu_buttons",function() {
 
 function goto(url) {
   window.location.href = url;
-  //alert(url);
 }
-
 $(document).on("click", ".menu_buttons", function() {
   var $td = $(this).parent("td");
   var $span = $td.children("span");
@@ -79,27 +77,63 @@ $(document).on("click", ".image_buttons", function () {
             break;
     }
 })
-
-/*$(document).on("click", "#pull_img_btn", function (e) {
-    //e.preventDefault();
-    var img_val = $("#img_path").val()
-    var numrow = $('#img_container tr').length;
-    //alert(img_val);
-    //alert(numrow);
-    if(img_val=="")
-    {
-        alert("Error:No image path");
-    }
-    else
-    {
-        //alert("Entered");
-        //var tr = "<tr id=img_list'" + numrow + "' align='center'><td><input type='checkbox' id='imagecheckBox" + numrow + "' name='containercheckBox" + numrow + "'></td>";
-        //alert(tr);
-        //var td = "<td>" + img_val + "</td>";
-        //alert(td);
-        //tr = tr + td + "</tr>";
-        //alert(tr);
-    }
-    //$("#img_container").append(tr);
+$(document).on("click", '#pull_img_btn', function(){
+  var re = /\w+:\w/;
+  var imageName = document.getElementById('img_path').value;
+  var validateName = re.test(imageName);
+  console.log("RE" + validateName);
+  console.log(imageName);
+  if(validateName == true){
+    $.ajax({
+      type: 'POST',
+      url: '/images',
+      data: {'name':imageName},
+      success: function(response){
+        console.log("HERE");
+        $("#img_return_table").html(response);
+      }
+    })
+  } else {
+    $.ajax({
+      type: 'POST',
+      url: '/images/pull_name_fail',
+      success: function(response){
+        console.log("HERE");
+        $("#img_return_table").html(response);
+      }
+    })
+  }
 })
-*/
+$(document).on("click", "#rmv_img_btn", function(){
+  var imageList = [];
+  var imageNames = "";
+  var btnVal = $(this).val();
+  var table = $('#img_container tr').length-1;
+  for(var i=0; i<table; i++){
+    var row = $('#img_container').find('tr').eq(i+1).html();
+    if((i)<table){
+      var checked = $('#imagecheckBox' + (i+1)).is(':checked');
+      if(checked==true){
+        var name = $('#img_list'+(i+1)).find('td:eq(1)').html() + ':' + $('#img_list'+(i+1)).find('td:eq(2)').html();
+        imageList.push(name);
+      }
+    }
+  }
+  for(var i=0;i<imageList.length; i++){
+    if(i == imageList.length-1){
+      imageNames = imageNames.concat(imageList[i]);
+    } else {
+      imageNames = imageNames.concat(imageList[i] + ',');
+    }
+  }
+  console.log(imageNames);
+  $.ajax({
+    type: 'POST',
+    url: '/images/remove',
+    data: {'list':imageNames},
+    success: function(response){
+      console.log("HERE")
+      $("#img_return_table").html(response);
+    }
+  });
+})

@@ -1,0 +1,51 @@
+{% block content %}
+<div id="img_return_table">
+  <div style='margin-bottom:5%; margin-top:5%'>
+    {% if pullErrors %}
+    {% for error in pullErrors %}
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Error!</strong> {{ error }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <form id="pull_img" class="form-inline" role="form" display="block">
+      <div class="form-group">
+        <label class='sr-only' for="email">Image Path:</label>
+        <input maxlength="70" size="70" id="img_path" type="text" class="form-control  imagepath" name="img_path" placeholder="Image Name" pattern="\w+:\w+" title="imageName:tag" required>
+      </div>
+     <input id="pull_img_btn" type="button" class="btn btn-default" value="Pull Image" style="box-shadow: 2px 2px 2px #888888;">
+   </form>
+ </div>
+ <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b;margin-bottom:2%">
+ <div>
+   <div id="image_list_container">
+     <input id='rmv_img_btn' type='button' class='btn btn-default remove_btn' style='margin-bottom:2%;box-shadow: 2px 2px 2px #888888;' value='Remove'>
+     {% if removeErrors %}
+     {% for error in removeErrors %}
+     <div class="alert">
+       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+       <strong>Error!</strong> {{ error }}
+     </div>
+     {% endfor %}
+     {% endif %}
+     <table id="img_container" width=100%>
+       <tr id='img_list0' style='box-shadow: 2px 2px 2px #888888; backgroud-color:transparent;'>
+         <th target="left"></th>
+         <th style="text-align:center">Image Name</th>
+         <th style="text-align:center">Tag</th>
+         <th style="text-align:center" target="right">Size</th>
+       </tr>
+       {% for name,tag,size in imageList %}
+       <tr id='img_list{{ loop.index }}' align='center'>
+         <td><input type="checkbox" id="imagecheckBox{{ loop.index }}" name="imagecheckBox{{ loop.index }}"></td>
+         <td>{{ name }}</td>
+         <td>{{ tag }}</td>
+         <td>{{ size }}</td>
+       </tr>
+       {% endfor %}
+     </table>
+   </div>
+ </div>
+</div>
+{% endblock %}

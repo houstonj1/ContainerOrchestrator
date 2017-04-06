@@ -22,15 +22,16 @@
           <div class="row">
             <div class="col-lg-12">
               <form id="login-form" action="/login" method="post" role="form" style="display: block;">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
+                {% if error %}
                 <div class="form-group">
-                  {% for message in messages %}
-                  <p style="color:red">{{ message }}</p>
-                  {% endfor %}
+                  <p style="color:red">{{ error }}</p>
                 </div>
                 {% endif %}
-                {% endwith %}
+                {% if success %}
+                <div class="form-group">
+                  <p style="color:green">{{ success }}</p>
+                </div>
+                {% endif %}
                 <div class="form-group">
                   <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                 </div>
@@ -46,6 +47,11 @@
                 </div>
               </form>
               <form id="register-form" action="/login/register" method="post" role="form" style="display: none;">
+                {% if errorReg %}
+                <div class="form-group">
+                  <p style="color:red">{{ errorReg }}</p>
+                </div>
+                {% endif %}
                 <div class="form-group">
                   <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="25" size="25">
                 </div>

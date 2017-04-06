@@ -5,7 +5,7 @@
 	  width:100%;
 	  background-color:#81c784;
 	 }
-	
+
 	.topGap
 	{
 	 position: relative;
@@ -75,17 +75,17 @@
 	{
 	 border-color: #81c784;
 	}
-	#tbl_container th[target=right] 
-	{ 
+	#tbl_container th[target=right]
+	{
 	 border-top-right-radius: 5px;
     	 border-bottom-right-radius: 5px;
 	 -moz-border-radius-topright: 5px;
-    	 -moz-border-radius-bottomright: 5px;  
+    	 -moz-border-radius-bottomright: 5px;
 	}
 	#tbl_container th[target=left]
 	{
 	 border-top-left-radius: 5px;
     	 border-bottom-left-radius: 5px;
 	 -moz-border-radius-topleft: 5px;
-    	 -moz-border-radius-bottomleft: 5px;  
+    	 -moz-border-radius-bottomleft: 5px;
 	}
