@@ -39,13 +39,15 @@
         <p>When working on Container Orchestrator, it may be useful to understand some Docker errors in order to understand alerts that may be experienced while using this application.
           Overall, there are four important errors that the user may experience:</p>
         <ul>
-          <li>Docker APIError</li>
-          <p>
-            Test
-          </p>
-          <li>Docker ImageNotFound</li>
-          <li>Requests ConnectionError</li>
-          <li>Requests ConnectTimeout</li>
+          <li><strong>Docker APIError</strong></li>
+          <p>The Docker APIError occurs when there is an error thrown by the Docker Engine API. This acts as a RESTful API, returning 404, 409 errors when invalid information is passed, or if the request cannot be completed</p>
+          <li><strong>Docker ImageNotFound</strong></li>
+          <p>The Docker ImageNotFound error is returned only during operations with or on images. For example, if a user tries to create a container from an image not on the system, it will thrown this error. Similarly,
+           this error will be thrown if the user tries to pull an image that does not exist on Docker Hub</p>
+          <li><strong>Requests ConnectionError</strong></li>
+          <li><strong>Requests ConnectTimeout</strong></li>
+          <p>Both of these requests errors are related to the Docker Engine API, which as mentioned above is a RESTful API. These errors will be thrown if the Docker Engine is unable to make requests to the API or if the requests
+            time out.</p>
         </ul>
       </div>
       <div style='padding-top:10px;padding-bottom:5px;'>
