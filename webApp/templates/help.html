@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+  <img src="/static/img/logo.png" style="margin-top:5px;margin-left:5px;">
+</div>
+<div class="container-fluid topGap">
+  <div class="row">
+    <div id="menu_img_icon"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="background-color:#f5f4f3; height=100%;border-radius:5px;">
+      <div class='remove_padding' style="background-color:#029f5b; border-radius:5px; box-shadow: 2px 2px 2px #888888;">
+        <div id='dvMenuBar' class='center_div'></div>
+      </div>
+      <div style='margin-left:5%'></div>
+      <div align='center' id="docker-image">
+        <img src="/static/img/docker_logo2.png" width="450" height="100"/>
+      </div>
+      <div>
+        <h2>Using Container Orchestrator:</h2>
+      </div>
+      <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b; margin-botton:2%">
+      <div>
+        <h3>Pulling Images:</h3>
+        <p>Container Orchestratator is able to pull any image hosted on Docker's public image registry. Once an image is pulled onto the local system,
+           it can be used to create containers. Go to the <a href="/images">Images</a> page to pull an image. For more information on pulling Docker images,
+           visit <a href="https://docs.docker.com/engine/getstarted/step_three/">Docker's tutorial</a> on exploring and pulling images. To explore all available
+           images, go to Docker's public image registry, <a href="https://hub.docker.com/">Docker Hub</a>.
+        </p>
+      </div>
+      <div>
+        <h3>Creating Containers:</h3>
+        <p>After pulling an image, you can start creating containers! Visit the <a>Containers</a> page to start creating. Container Orchestrator supports
+          configuring the container command, as well as network settings. You can view container information by clicking on one of the listed containers. For
+          more information on containers and container configuration, visit <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/">Docker's documentation</a>.
+        </p>
+      </div>
+      <div>
+        <h3>Docker Errors:</h3>
+        <p>When working on Container Orchestrator, it may be useful to understand some Docker errors in order to understand alerts that may be experienced while using this application.
+          Overall, there are four important errors that the user may experience:</p>
+        <ul>
+          <li>Docker APIError</li>
+          <p>
+            Test
+          </p>
+          <li>Docker ImageNotFound</li>
+          <li>Requests ConnectionError</li>
+          <li>Requests ConnectTimeout</li>
+        </ul>
+      </div>
+      <div style='padding-top:10px;padding-bottom:5px;'>
+        <h2>More About the Docker Engine:</h2>
+        <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b; margin-botton:2%">
+        <h3>Docker Engine API:</h3>
+        <p>The Docker Engine is the software that allows for the creation and usage of containers. Container Orchestrator uses the Docker Engine API to control and
+          orchestrate containers on this system. For more information on the Docker Engine and the Docker Engine API, visit <a href="https://docs.docker.com/engine/api/">Docker's documentation</a>.</p>
+
+        <p> </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

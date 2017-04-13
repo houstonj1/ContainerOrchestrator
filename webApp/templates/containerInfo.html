@@ -12,43 +12,70 @@
         <div id='dvMenuBar' class='center_div'></div>
       </div>
       <div style='margin-left:5%'>
-        <table id='tbl_name'>
-          <tr><th></th><th></th></tr>
-          <tr align='left'><td style='font-size:20px'>Container Name:</td>
-            <td>{{ container.name }}</td>
-          </tr>
-          <tr align='left'><td  style='font-size:20px'>Current Status:</td>
-            <td>{{container.status}}</td>
-          </tr>
-			   </table>
-		  </div>
-		  <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b; margin-botton:2%">
-		  <div class='center_div'>
-        <table>
-          <tr>
-            <td style='padding:4px;'><input class='infobtn btn btn-default' type='button' value='Start' id='container_info_str' name='container_info_str' /></td>
-            <td style='padding:4px;'><input class='infobtn btn btn-default' type='button' value='Stop' id='container_info_stp' name='container_info_stp' /></td>
-            <td style='padding:4px;'><input class='infobtn btn btn-default' type='button' value='Remove' id='container_info_rvm' name='container_info_rvm' /></td>
-          </tr>
-			   </table>
 		  </div>
 		  <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b; margin-botton:2%">
 		  <div>
         <table id="info_container" width=100%>
-          <tr>
-            <th target="left" style="text-align:center">Key</th>
+          <tr style='box-shadow:2px 2px 2px #888888;'>
+            <th target="left" style="text-align:center">Container attribute</th>
             <th style="text-align:center" target="right">Value</th>
           </tr>
-          <tr align='center'>
-            <td><a href="Container.html">Placeholder</a></td>
-            <td>Placeholder</td>
+          <tr style="padding-bottom:5%">
+            <td align='center'>Name</td>
+            <td align='center'>{{ container.name }}</td>
           </tr>
+          <tr align='center'>
+            <td>Unique ID</td>
+            <td align:'center'>{{ container.short_id }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Status</td>
+            <td>{{ container.status.title() }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Image</td>
+            <td>{{ container.attrs["Config"]["Image"] }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Date Created</td>
+            <td>{{ container.attrs["Created"].split('T')[0] }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Command</td>
+            <td>{{ container.attrs["Config"]["Cmd"]|join(' ') }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Hostname</td>
+            <td>{{ container.attrs["Config"]["Hostname"] }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Network Mode</td>
+            <td>{{ container.attrs["HostConfig"]["NetworkMode"].title() }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Default Gateway</td>
+            <td>{{ container.attrs["NetworkSettings"]["Gateway"] }}</td>
+          </tr>
+          <tr align='center'>
+            <td>IP Address</td>
+            <td>{{ container.attrs["NetworkSettings"]["IPAddress"] }}</td>
+          </tr>
+          <tr align='center'>
+            <td>Ports</td>
+            {% if hostPort %}
+            <td>{{ hostPort }} <-------> {{ containerPort }}</td>
+            {% else %}
+            <td>{{ container.attrs["NetworkSettings"]["Ports"] }}</td>
+            {% endif %}
+          </tr>
+          <tr align='center'>
+            <td>Mac Address</td>
+            <td>{{ container.attrs["NetworkSettings"]["MacAddress"] }}</td>
+          </tr>
+
 				</table>
 		  </div>
 		  <hr style="height:2px;border-width:0;color:gray;background-color:#029f5b; margin-botton:2%">
-		  <div>
-        <p>Placeholder for commands</p>
-      </div>
 		</div>
 		<div class="col-md-2"></div>
 	</div>

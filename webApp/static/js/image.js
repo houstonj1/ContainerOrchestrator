@@ -1,5 +1,5 @@
-var arrButtons = [{"Display_Text":"Home","URL":"/",},{"Display_Text":"Images","URL":"/images"},{"Display_Text":"Containers","URL":"/containers"}];
-var imageSource = [{"Display_Text":"Home", "src":"<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Images","src":"<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>"},{"Display_Text":"Containers","src":"<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>"}]
+var arrButtons = [{ "Display_Text": "Home", "URL": "/", }, { "Display_Text": "Images", "URL": "/images" }, { "Display_Text": "Containers", "URL": "/containers" }, { "Display_Text": "Help", "URL": "/help" }];
+var imageSource = [{ "Display_Text": "Home", "src": "<i class='fa fa-home' aria-hidden='true' style='font-size:35px'></i>" }, { "Display_Text": "Images", "src": "<i class='fa fa-picture-o' aria-hidden='true' style='font-size:35px'></i>" }, { "Display_Text": "Containers", "src": "<i class='fa fa-sellsy' aria-hidden='true' style='font-size:35px'></i>" }, { "Display_Text": "Help", "src": "<i class='fa fa-question-circle' aria-hidden='true' style='font-size:35px'></i>" }];
 $(document).ready(function() {
   var tbl = "<table>";
   var tr = "<tr>";

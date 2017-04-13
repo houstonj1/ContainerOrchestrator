@@ -6,10 +6,7 @@ $(document).ready(function() {
   var tr = "<tr>";
   for (var i=0;i<arrButtons.length;i++) {
     var url = arrButtons[i].URL;
-    //alert(url);
-    //var td = "<td style='padding:4px;'><input type='button' value='" + arrButtons[i].Display_Text + "' onclick=goto('" +url + "');  /></td>"  ;
     var td = "<td style='padding:4px;'><input class='menu_buttons textbox' type='button' value='" + arrButtons[i].Display_Text + "'  /><span style='display:none;'>" +url + "</span> </td>"  ;
-    //var myDiv = "<div style='background-color:" + color + "'>" + url  + "</div>"
     tr = tr + td;
   }
   tr= tr + "</tr>";
@@ -22,7 +19,6 @@ $(document).ready(function() {
   for(var j=0;j<containerSource.length;j++) {
     var td = "<td style='padding:4px;'><input class='containerBtn containerBtns container_btn_click' type='button' value='" + containerSource[j].Display_Text + "' style='box-shadow: 2px 2px 2px #888888;' /></td>" ;
     tr = tr + td;
-    //alert(containerSource[j].Display_Text);
   }
   tr = tr + "</tr>";
   tbl = tbl + tr + "</table>";
@@ -31,31 +27,24 @@ $(document).ready(function() {
 
 $(document).on("mouseover",".menu_buttons",function() {
   var btn_offset = $(this).offset();
-  //alert(btn_offset.left);
-  //alert(btn_offset.top);
   var src;
   var imgKey = $(this).val();
   for(var i=0;i<imageSource.length;i++) {
-    //alert(imageSource[i].Display_Text);
     if(imgKey == imageSource[i].Display_Text) {
       src = imageSource[i].src;
-      //alert(src);
       break;
     }
   }
   $("#menu_img_icon").parent().css({position:'relative'});
   $("#menu_img_icon").css({top: (btn_offset.top)- (1.4*btn_offset.top), left: btn_offset.left + 80, position:'absolute'});
-  //var img = "<img class='img_style' src='" + src + "' ></img>";
   var img = src
   $("#menu_img_icon").html(img);
-  //$("#dvMenuBar").append(img);
 })
 $(document).on("mouseleave",".menu_buttons",function() {
   $("#menu_img_icon").html("");
 })
 function goto(url) {
   window.location.href = url;
-//alert(url);
 }
 $(document).on("click", ".menu_buttons", function() {
   var $td = $(this).parent("td");
@@ -70,9 +59,7 @@ $(document).on("click", ".container_btn_click", function () {
     if (btnVal == "Create") {
       var disProp = $("#create_container").css("display");
       if (disProp == "none") {
-        //alert("Entered");
         disProp = "block";
-        //alert(disProp);
         $("#create_container").css("display", disProp);
         $("#container_list").css("display", "none");
       }
@@ -82,66 +69,57 @@ $(document).on("click", ".container_btn_click", function () {
       }
       var createConForm = [];
       var containerName = '';
-      $(document).on('click', '#create_con', function (e) {
-          //alert('enter');
-          //e.preventDefault();
-          createConForm.push($('#container_name').val());
-          containerName = $('#container_name').val()
-          createConForm.push($('#image_name').val());
-          createConForm.push($('#command').val());
-          if ($('#detach').is(':checked')) {
-              createConForm.push('True');
-          }
-          else {
-              createConForm.push('False');
-          }
-          createConForm.push($('#hostname').val());
-          if ($('#network_dis').is(':checked')) {
-              createConForm.push('True');
-          }
-          else {
-              createConForm.push('False');
-          }
-          createConForm.push($('#network_mode').val());
-          createConForm.push($('#mac').val());
-          createConForm.push($('#ports').val());
-          if ($('#publish_ports').is(':checked')) {
-              createConForm.push('True');
-          }
-          else {
-              createConForm.push('False');
-          }
-          //alert(createConForm);
-          //alert('hi');
-          //alert(createConForm.length);
-
+      $("#create_container").submit(function (e) {
+        $('#create_container').attr("disabled",true);
+        e.preventDefault();
+        var formValid = false;
+        var valid = [];
+        var pattern = /\w+/;
+        valid.push(pattern.test($('#container_name').val()));
+        createConForm.push($('#container_name').val());
+        pattern = /\w+:\w+/;
+        valid.push(pattern.test($('#image_name').val()));
+        createConForm.push($('#image_name').val());
+        createConForm.push($('#command').val());
+        createConForm.push($('#hostname').val());
+        if ($('#network_dis').is(':checked')) {
+          createConForm.push('False');
+        } else {
+          createConForm.push('True');
+        }
+        pattern = /(bridge|host|none)/;
+        valid.push(pattern.test($('#network_mode').val()));
+        createConForm.push($('#network_mode').val());
+        createConForm.push($('#mac').val());
+        createConForm.push($('#ports').val());
+        if ($('#publish_ports').is(':checked')) {
+          createConForm.push('True');
+        } else {
+          createConForm.push('False');
+        }
+        if (valid.every(function(val){return val == true;}) == true){
           var sentForm = '';
           for (var j = 0; j < createConForm.length; j++) {
-              if (j == createConForm.length - 1) {
-                  var temp = createConForm[j];
-              }
-              else {
-                  var temp = createConForm[j] + ',';
-              }
-              sentForm = sentForm.concat(temp);
+            if (j == createConForm.length - 1) {
+              var temp = createConForm[j];
+            } else {
+              var temp = createConForm[j] + ',';
+            }
+            sentForm = sentForm.concat(temp);
           }
-          //alert(sentForm);
-          //alert('success');
-          console.log(sentForm);
-          $.ajax({                //This ajax call is to the python script that sends the data of create form
-              type: 'POST',
-              url: '/containers/create',
-              data: { 'data': sentForm },
-              success: function(response) {
-                console.log("THIS IS IMPORTANT")
-                console.log(response)
-                $("#create_container").css("display", "none");
-                $("#container_list").css("display", "block");
-                $("#tbl_container").html(response);
-                window.location.href="/containers"
+          $.ajax({
+            type: 'POST',
+            url: '/containers/create',
+            data: { 'data': sentForm },
+            success: function(response) {
+              $("#create_return_table").html(response);
+              $("#create_container").css("display", "none");
+              $("#container_list").css("display", "block");
               },
-              error: function () { }    //error from the python script
+            error: function () {
+            }
           });
+        }
       });
     }
     else if (btnVal == "Stop" || btnVal == "Start") {
@@ -174,66 +152,47 @@ $(document).on("click", ".container_btn_click", function () {
             data: { 'data':status_ContainerIds },                 //Sending the string as Status,ContainerID. Ex: "Stop,Container1,Container2". Use ',' to split the string in python.
             dataType: 'html',
             success: function(response) {
-                $("#tbl_container").html(response);
+                $("#container_return_table").html(response);
             },
             error: function(response) {
-                //placeholder
             }
         });
       }
       else {
           if (btnVal == 'Remove') {
-              var containerCreator = [];
-              var tableRow = $('#tbl_container tr').length - 1;
-              for (var i = 0; i < tableRow; i++) {
-                  var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
-                  if ((i) < tableRow) {
-                      var checked = $('#containercheckBox' + (i + 1)).is(':checked');
-                      if (checked == true) {
-                          containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
-                          containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
-                          var status = ($('#con_list' + (i + 1)).find('td:eq(3)').html());
-                          if (status == "Running") {
-                              var running = status;
-                          }
-                      }
-                  }
+            var containerCreator = [];
+            var tableRow = $('#tbl_container tr').length - 1;
+            for (var i = 0; i < tableRow; i++) {
+              var containerrow = $('#tbl_container').find("tr").eq(i + 1).html();
+              if ((i) < tableRow) {
+                var checked = $('#containercheckBox' + (i + 1)).is(':checked');
+                if (checked == true) {
+                  containerId.push($('#con_list' + (i + 1)).find('td:eq(2)').html());
+                  containerCreator.push($('#con_list' + (i + 1)).find('td:eq(4)').html());
+                }
               }
-              var containerCreatorString = '';
-              var status_containerIdString = btnVal + ',';
-              for (var i = 0; i < containerId.length; i++) {
-                  if (i == containerId.length - 1) {
-                      var temp = containerId[i];
-                      var temp2 = containerCreator[i] + ',';
-                  }
-                  else {
-                      var temp = containerId[i] + ',';
-                      var temp2 = containerCreator[i] + ',';
-                  }
-                  status_containerIdString = status_containerIdString.concat(temp);
-              }
-              console.log(status_containerIdString);
-              if (running == 'running') {
-                  alert("Container is Running. Needs to be stopped before removing.");
+            }
+            var containerCreatorString = '';
+            var status_containerIdString = btnVal + ',';
+            for (var i = 0; i < containerId.length; i++) {
+              if (i == containerId.length - 1) {
+                var temp = containerId[i];
               }
               else {
-                console.log(containerCreatorString);
-                $.ajax({                    //this call is to the python script with string" Status,ContainerID(similar to start/ stop)
-                    type: 'POST',
-                    url: '/containers',
-                    data: { 'data': status_containerIdString },
-                    success: function (response) {
-                      if(response == "fail"){
-                        alert("Error: Cannot remove containers created by another user!")
-                      } else {
-                        $("#tbl_container").html(response);
-                      }
-                    },
-                    error: function () {
-                        alert("Error: Cannot remove containers created by another user!");
-                    }
-                });
-              }   //end of new logic
+                var temp = containerId[i] + ',';
+              }
+              status_containerIdString = status_containerIdString.concat(temp);
+            }
+            $.ajax({
+              type: 'POST',
+              url: '/containers',
+              data: { 'data': status_containerIdString },
+              success: function (response) {
+                $("#container_return_table").html(response);
+              },
+              error: function () {
+              }
+            });
           }
-      }
-})
+        }
+      })

@@ -1,0 +1,101 @@
+{% block content %}
+<div id="create_return_table" style='margin-top:20px'>
+  <div>
+    {% if errors %}
+    {% for error in errors %}
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Error!</strong> {{ error }}
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <div>
+    <form id="create_container" class="form-horizontal" style="display:none" autocomplete="off">
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="image_name">Container Name:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="container_name" name="container_name" placeholder="Container Name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="image_name">Image Name:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="image_name" name="image_name" pattern="[-\w]+:[-\w]+" title="imageName:tag" placeholder="image:tag" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="command">Command:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="command" name="command" placeholder="/bin/echo Hello">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="hostname">Hostname:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="hostname" name="hostname" placeholder="Hostname">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="network_dis">Enable Networking:</label>
+        <div class="col-sm-9">
+          <input type="checkbox" class="form-checkbox inputText" id="network_dis" name="network_di" placeholder="Network Disabled">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="network_mode">Network Mode:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="network_mode" name="network_mode" pattern="(bridge|host|none)" title="Bridge or Host or None" placeholder="bridge, host, none" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="mac">MAC Address:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="mac" name="mac" pattern="\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2}" title="AA:BB:CC:DD:EE:FF" placeholder="AA:BB:CC:DD:EE:FF">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="ports">Map Host Port:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control inputText" id="ports" name="ports" pattern="[0-9]{1,5}:[0-9]{1,5}" title="ex/ &quot;5000:8080&quot;" placeholder="HostPort:ContainerPort">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="publish_ports">Expose Host Port:</label>
+        <div class="col-sm-9">
+          <input type="checkbox" class="form-checkbox inputText" id="publish_ports" name="publish_ports" placeholder="Expose host port">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-7">
+          <input type="submit" class="btn btn-default" id="create_con" name="create_con" value="Create Container">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="container_return_table">
+    <div>
+      <form id="container_list" style="display:block">
+        <table id="tbl_container" width=100%>
+          <tr id='con_list0'>
+            <th target="left"></th>
+            <th style="text-align:center">Container Name</th>
+            <th style="text-align:center">Container ID</th>
+            <th style="text-align:center">Status</th>
+            <th style="text-align:center" target="right">Created By</th>
+          </tr>
+          {% for container,createdBy in containers %}
+          <tr id='con_list{{ loop.index }}' align='center'>
+            <td><input type="checkbox" id="containercheckBox{{ loop.index }}" name="containercheckBox{{ loop.index }}"></td>
+            <td><a href="/containers/{{ container.name }}">{{ container.name }}</a></td>
+            <td>{{ container.short_id }}</td>
+            <td>{{ container.status.title() }}</td>
+            <td>{{ createdBy }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
