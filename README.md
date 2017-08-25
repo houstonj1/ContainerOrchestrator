@@ -1,5 +1,5 @@
 # ContainerOrchestrator
-Created for COMP 4970: Software Engineering
+Created for COMP 4970: Software Engineering (Spring 2017) <br/>
 Container Orchestrator using Docker Engine
 
 ![Alt text](/screenshots/HomePage.png?raw=true "HomePage")
