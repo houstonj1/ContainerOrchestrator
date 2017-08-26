@@ -1,5 +1,8 @@
+# James Update
+This branch is where I will be updating the application. It was created with the intention of NOT merging with the master branch in order to preserve the work of my group members. 
+
 # ContainerOrchestrator
-Created for COMP 4970: Software Engineering
+Created for COMP 4970: Software Engineering (Spring 2017)<br/>
 Container Orchestrator using Docker Engine
 
 ![Alt text](/screenshots/HomePage.png?raw=true "HomePage")
