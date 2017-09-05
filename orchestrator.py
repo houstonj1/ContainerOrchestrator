@@ -21,7 +21,7 @@ connection = mysql.connect()
 
 def log(msgs):
     """
-    Logging function for Flask. Uses import __future__ to get python3 print()
+    Logging function for Flask.
     """
     for message in msgs:
         print("FLASK::LOG::" + str(message))
