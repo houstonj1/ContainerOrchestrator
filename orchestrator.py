@@ -1,24 +1,19 @@
-from __future__ import print_function
 from datetime import timedelta
 from flask import Flask, abort, flash, jsonify, redirect, render_template, request, session, url_for
 from flaskext.mysql import MySQL
+import os
 import docker
 import requests
-from docker.errors import APIError
-from docker.errors import ImageNotFound
-from requests import ConnectTimeout
-from requests import ConnectionError
 import ast
 import time
 import psutil
-import sys
 import humanize
 app = Flask(__name__)
-app.secret_key = "ThisIScontainerOrchestrator\x1c02\xbbh\xba\xd8$\xe9d(\xa5\xe0Wb\xff\x1a\x8a\xd391\x1a(N\x8c"
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'container'
-app.config['MYSQL_DATABASE_DB'] = 'ContainerOrchestrator'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.secret_key = os.environ.get('ORCHESTRATOR_SECRET')
+app.config['MYSQL_DATABASE_USER'] = os.environ.get('ORCHESTRATOR_DB_USER')
+app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('ORCHESTRATOR_DB_PW')
+app.config['MYSQL_DATABASE_DB'] = os.environ.get('ORCHESTRATOR_DB')
+app.config['MYSQL_DATABASE_HOST'] = os.environ.get('ORCHESTRATOR_DB_URL')
 client = docker.from_env()
 mysql = MySQL()
 mysql.init_app(app)
@@ -29,7 +24,7 @@ def log(msgs):
     Logging function for Flask. Uses import __future__ to get python3 print()
     """
     for message in msgs:
-        print("FLASK::LOG::" + str(message), file=sys.stderr)
+        print("FLASK::LOG::" + str(message))
 
 def call_db(query,commitFlag):
     cursor = connection.cursor()
@@ -166,21 +161,21 @@ def images():
             fullPath = request.form['name']
             try:
                 retVal = client.images.pull(str(fullPath))
-            except APIError as e:
+            except docker.errors.APIError as e:
                 e = str(e)
                 if "Timeout" in e:
                     errorList.add("Request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers) Make sure image is valid.")
                 else:
                     errorList.add(e)
-            except ImageNotFound as e:
+            except docker.errors.ImageNotFound as e:
                 e = str(e)
                 log([e])
                 errorList.add(e)
-            except ConnectTimeout as e:
+            except requests.ConnectTimeout as e:
                 e = str(e)
                 log([e])
                 errorList.add(e)
-            except ConnectionError as e:
+            except requests.ConnectionError as e:
                 e = str(e)
                 log([e])
                 errorList.add(e)
@@ -211,17 +206,17 @@ def remove_image():
         for image in imageList:
             try:
                 client.images.remove(image)
-            except APIError as e:
+            except docker.errors.APIError as e:
                 e = str(e)
                 e = e[e.find('(')+1:e.rfind(')')]
                 e = e[1:-1]
                 log([e])
                 errorList.add(e.replace('(must force)',''))
-            except ConnectTimeout as e:
+            except requests.ConnectTimeout as e:
                 e = str(e)
                 log([e])
                 errorList.add(e)
-            except ConnectionError as e:
+            except requests.ConnectionError as e:
                 e = str(e)
                 log([e])
                 errorList.add(e)
@@ -278,34 +273,34 @@ def containers():
                     if action == "Start":
                         try:
                             container.start()
-                        except APIError as e:
+                        except docker.errors.APIError as e:
                             e = str(e)
                             e = e[e.find('(')+1:e.rfind(')')]
                             e = e[1:-1]
                             log([e])
                             errorList.add(e)
-                        except ConnectTimeout as e:
+                        except requests.ConnectTimeout as e:
                             e = str(e)
                             log([e])
                             errorList.add(e)
-                        except ConnectionError as e:
+                        except requests.ConnectionError as e:
                             e = str(e)
                             log([e])
                             errorList.add(e)
                     elif action == "Stop":
                         try:
                             container.stop()
-                        except APIError as e:
+                        except docker.errors.APIError as e:
                             e = str(e)
                             e = e[e.find('(')+1:e.rfind(')')]
                             e = e[1:-1]
                             log([e])
                             errorList.add(e)
-                        except ConnectTimeout as e:
+                        except requests.ConnectTimeout as e:
                             e = str(e)
                             log([e])
                             errorList.add(e)
-                        except ConnectionError as e:
+                        except requests.ConnectionError as e:
                             e = str(e)
                             log([e])
                             errorList.add(e)
@@ -328,17 +323,17 @@ def containers():
                     try:
                         container.remove()
                         retVal = call_db("DELETE from container where containerID=\'" + name + "\';", True)
-                    except APIError as e:
+                    except docker.errors.APIError as e:
                         e = str(e)
                         e = e[e.find('(')+1:e.rfind(')')]
                         e = e[1:-10]
                         log([e])
                         errorList.add(e)
-                    except ConnectTimeout as e:
+                    except requests.ConnectTimeout as e:
                         e = str(e)
                         log([e])
                         errorList.add(e)
-                    except ConnectionError as e:
+                    except requests.ConnectionError as e:
                         e = str(e)
                         log([e])
                         errorList.add(e)
@@ -368,17 +363,17 @@ def containers_create():
         try:
             client.containers.create(image,command,hostname=hostname,name=name,network_disabled=netDisabled,network_mode=netMode,mac_address=mac,ports=ports,publish_all_ports=pubPorts)
             retVal = call_db("INSERT INTO container (containerID,imageName,createBy) values(\'"+ str(name) + "\',\'" + str(image) + "\',\'" + str(session['user_id']) + "\');", True)
-        except APIError as e:
+        except docker.errors.APIError as e:
             e = str(e)
             log([e])
             e = e[e.find('(')+1:e.rfind(')')]
             e = e[1:-1]
             errorList.add(e)
-        except ConnectTimeout as e:
+        except requests.ConnectTimeout as e:
             e = str(e)
             log([e])
             errorList.add(e)
-        except ConnectionError as e:
+        except requests.ConnectionError as e:
             e = str(e)
             log([e])
             errorList.add(e)
