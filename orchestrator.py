@@ -58,7 +58,7 @@ def login():
         return render_template('login.html', scripts=["login.js"], css="login.css", error=error)
     else:
         session['username'] = username
-        retVal = call_db("SELECT userID from account where username=\'" + session['username'] + "\'", False)
+        retVal = call_db("SELECT id from account where username=\'" + session['username'] + "\'", False)
         session['user_id'] = retVal[0][0]
         session['logged_in'] = True
         return redirect(url_for('home'))
