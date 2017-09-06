@@ -79,7 +79,7 @@ def register():
     if password != confirmPassword:
         error = 'ERROR: Passwords do not match! Please try again.'
         return render_template('login.html', scripts=["login.js"], css="login.css", error=error)
-    retVal = call_db("SELECT userID from account where username=\'" + username + "\'", False)
+    retVal = call_db("SELECT id from account where username=\'" + username + "\'", False)
     if retVal is not None:
         error = 'ERROR: Invalid username! The specifed username is already taken, please choose a different username.'
         return render_template('login.html', scripts=["login.js"], css="login.css", error=error)
@@ -233,7 +233,7 @@ def list_containers():
     """
     myList = []
     for container in client.containers.list(True):
-        retVal = call_db("SELECT username from account where userID=(select createBy from container where containerID=\'" + str(container.name) + "\');", False)
+        retVal = call_db("SELECT username from account where userID=(select createdBy from container where id=\'" + str(container.name) + "\');", False)
         user = "SysAdmin" if retVal is None else str(retVal[0][0])
         myList.append((container,user))
     return myList
@@ -305,7 +305,7 @@ def containers():
                             log([e])
                             errorList.add(e)
             elif action == "Remove":
-                retVal = call_db("SELECT containerID from container where createBy=\'" + str(session['user_id']) + "\';", False)
+                retVal = call_db("SELECT id from container where createdBy=\'" + str(session['user_id']) + "\';", False)
                 if retVal == None:
                     errorList.add("You cannot remove containers created by another user!")
                     containerList = list_containers()
@@ -322,7 +322,7 @@ def containers():
                     container = get_container(name)
                     try:
                         container.remove()
-                        retVal = call_db("DELETE from container where containerID=\'" + name + "\';", True)
+                        retVal = call_db("DELETE from container where id=\'" + name + "\';", True)
                     except docker.errors.APIError as e:
                         e = str(e)
                         e = e[e.find('(')+1:e.rfind(')')]
@@ -362,7 +362,7 @@ def containers_create():
         pubPorts = True if containerData[8] == "True" else False
         try:
             client.containers.create(image,command,hostname=hostname,name=name,network_disabled=netDisabled,network_mode=netMode,mac_address=mac,ports=ports,publish_all_ports=pubPorts)
-            retVal = call_db("INSERT INTO container (containerID,imageName,createBy) values(\'"+ str(name) + "\',\'" + str(image) + "\',\'" + str(session['user_id']) + "\');", True)
+            retVal = call_db("INSERT INTO container (id,imageName,createdBy) values(\'"+ str(name) + "\',\'" + str(image) + "\',\'" + str(session['user_id']) + "\');", True)
         except docker.errors.APIError as e:
             e = str(e)
             log([e])
